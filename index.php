@@ -18,6 +18,7 @@
       <div class="deck" id="deck"></div>
       <div class="defausse" id="defausse"></div>
       <div class="hand" id="hand"></div>
+      <div class="console" id="console"></div>
     </div>
 
     <!-- Scripts javascript  -->
