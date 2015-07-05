@@ -1,0 +1,19 @@
+{
+  "name": "pandemie",
+  "version": "1.0.0",
+  "description": "Version web du jeu de société pandémie",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasLaforge/Pandemie-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasLaforge/Pandemie-web/issues"
+  },
+  "homepage": "https://github.com/ThomasLaforge/Pandemie-web#readme"
+}
