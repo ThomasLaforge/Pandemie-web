@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ThomasLaforge/Pandemie-web/issues"
   },
-  "homepage": "https://github.com/ThomasLaforge/Pandemie-web#readme"
+  "homepage": "https://github.com/ThomasLaforge/Pandemie-web#readme",
+  "dependencies": {
+    "jquery": "^2.1.4"
+  }
 }

@@ -1,1 +1,1 @@
-console.log('deck js loaded');
+exports.init = function (n) { $(body).append('test'); }
