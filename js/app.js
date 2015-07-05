@@ -5,6 +5,7 @@ $(function(){
       $(this).attr('active','false');
     }
     else{
+      
       alert('Vous ne pouvez pas piocher de cartes.');
     }
   });
