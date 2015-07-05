@@ -17,6 +17,7 @@
     <div class="board">
       <div class="deck" id="deck"></div>
       <div class="defausse" id="defausse"></div>
+      <div class="hand" id="hand"></div>
     </div>
 
     <!-- Scripts javascript  -->
