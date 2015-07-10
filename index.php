@@ -12,6 +12,14 @@
         pour tester ma propre librairie de gestion de jeu de carte en javascript
         avec la norme ECMAScript 6.
       </p>
+      
+      <h2>Configurer votre partie:</h2>
+      <form action="partie.php">
+        <label for="nb_player">Nombre de joueurs:</label>
+        <input type="radio" name="nb_player" value="2" checked>2
+        <input type="radio" name="nb_player" value="3">3
+        <input type="radio" name="nb_player" value="4">4
+      </form>
     </header>
 
     <div class="board">
@@ -22,6 +30,6 @@
     </div>
 
     <!-- Scripts javascript  -->
-    <script src="build/app.js" charset="utf-8"></script>
+    <script src="dist/module.js" charset="utf-8"></script>
   </body>
 </html>

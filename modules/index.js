@@ -4,7 +4,7 @@ import {sum, square, variable, MyClass} from './import';
 console.log(square(5));
  
 var cred = {
-    name: 'Ritesh Kumar',
+    name: 'Ritesh Thomas',
     enrollmentNo: 11115078
 }
  
