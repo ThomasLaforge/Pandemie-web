@@ -2,7 +2,7 @@
   "name": "pandemie",
   "version": "1.0.0",
   "description": "Version web du jeu de société pandémie",
-  "main": "index.js",
+  "main": "dist/module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,5 +18,11 @@
   "homepage": "https://github.com/ThomasLaforge/Pandemie-web#readme",
   "dependencies": {
     "jquery": "^2.1.4"
-  }
+  },
+  "devDependencies": {
+       "grunt": "^0.4.5",
+       "babelify": "^6.1.0",
+       "grunt-browserify": "^3.8.0",
+       "grunt-contrib-watch": "^0.6.1"
+   }
 }
