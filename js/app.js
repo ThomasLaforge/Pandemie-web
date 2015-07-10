@@ -1,5 +1,5 @@
 $ = require('jquery');
-	require('./deck');
+require('./deck');
 console.log(new Deck());
 
 // var mon_deck = new deck();
