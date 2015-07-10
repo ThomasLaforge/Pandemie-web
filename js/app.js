@@ -1,4 +1,6 @@
-var $ = require('jQuery');
+$ = require('jquery');
+require('./deck');
+console.log(new Deck());
 
-var deck = require('./deck');
-deck.init();
+// var mon_deck = new deck();
+// console.log(mon_deck.getParam());
