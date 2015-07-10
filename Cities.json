@@ -1,248 +1,246 @@
-{
-	"cities":[
-		/* Bleues */
-		{
-			"name" :"San Francisco",
-			"color":"blue",
-			"links":["Chicago", "Los Angeles", "Manille", "Tokyo"]
-		},
-		{
-			"name" :"Chicago",
-			"color":"blue",
-			"links":["San Francisco", "Los Angeles", "Montreal", "Atlanta", "Mexico"]
-		},
-		{
-			"name" :"Atlanta",
-			"color":"blue",
-			"links":["Chicago", "Washington", "Miami"]
-		},
-		{
-			"name" :"Washington",
-			"color":"blue",
-			"links":["Miami", "Atlanta", "Montreal", "New York"]
-		},
-		{
-			"name" :"Montreal",
-			"color":"blue",
-			"links":["Chicago", "Washington", "New York"]
-		},
-		{
-			"name" :"New York",
-			"color":"blue",
-			"links":["Montreal", "Washington", "Madrid", "Londres"]
-		},
-		{
-			"name" :"Londres",
-			"color":"blue",
-			"links":["New York", "Madrid", "Paris", "Essen"]
-		},
-		{
-			"name" :"Madrid",
-			"color":"blue",
-			"links":["Londres", "New York", "Paris", "Alger", "Sao Paulo"]
-		},
-		{
-			"name" :"Paris",
-			"color":"blue",
-			"links":["Madrid", "Londres", "Essen", "Milan", "Alger"]
-		},
-		{
-			"name" :"Essen",
-			"color":"blue",
-			"links":["Londres", "Paris", "Milan", "Saint-Petersbourg"]
-		},
-		{
-			"name" :"Milan",
-			"color":"blue",
-			"links":["Essen", "Paris", "Istanbul"]
-		},
-		{
-			"name" :"Saint-Petersbourg",
-			"color":"blue",
-			"links":["Moscou", "Istanbul", "Essen"]
-		},
-		/* Blacks */
-		{
-			"name" :"Alger",
-			"color":"black",
-			"links":["Madrid", "Paris", "Istanbul", "Le Caire"]
-		},
-		{
-			"name" :"Le Caire",
-			"color":"black",
-			"links":["Alger", "Istanbul", "Bagdad", "Riyad", "Khartoum"]
-		},
-		{
-			"name" :"Istanbul",
-			"color":"black",
-			"links":["Alger", "Milan", "Saint-Petersbourg", "Moscou", "Bagdad", "Le Caire"]
-		},
-		{
-			"name" :"Moscou",
-			"color":"black",
-			"links":["Saint-Petersbourg", "Istanbul", "Teheran"]
-		},
-		{
-			"name" :"Bagdad",
-			"color":"black",
-			"links":["Le Caire", "Istanbul", "Teheran", "Karachi", "Riyad"]
-		},
-		{
-			"name" :"Riyad",
-			"color":"black",
-			"links":["Le Caire", "Bagdad", "Karachi"]
-		},
-		{
-			"name" :"Teheran",
-			"color":"black",
-			"links":["Moscou", "Bagdad", "Karachi", "Delhi"]
-		},
-		{
-			"name" :"Karachi",
-			"color":"black",
-			"links":["Riyad", "Bagdad", "Teheran", "Delhi", "Mumbai"]
-		},
-		{
-			"name" :"Delhi",
-			"color":"black",
-			"links":["Calcutta", "Chennai", "Mumbai", "Karachi", "Teheran"]
-		},
-		{
-			"name" :"Mumbai",
-			"color":"black",
-			"links":["Karachi", "Delhi", "Chennai"]
-		},
-		{
-			"name" :"Calcutta",
-			"color":"black",
-			"links":["Hong Kong", "Bangkok", "Chennai", "Delhi"]
-		},
-		{
-			"name" :"Chennai",
-			"color":"black",
-			"links":["Mumbai", "Delhi", "Calcutta", "Bangkok", "Jakarta"]
-		},
-		/* Reds */
-		{
-			"name" :"Bangkok",
-			"color":"red",
-			"links":["Calcutta", "Chennai", "Jakarta", "Ho-Chi-Minh-Ville", "Hong Kong"]
-		},
-		{
-			"name" :"Jakarta",
-			"color":"red",
-			"links":["Bangkok", "Chennai", "Sydney", "Ho-Chi-Minh-Ville"]
-		},
-		{
-			"name" :"Sydney",
-			"color":"red",
-			"links":["Manille", "Jakarta", "Los Angeles"]
-		},
-		{
-			"name" :"Ho-Chi-Minh-Ville",
-			"color":"red",
-			"links":["Bangkok", "Jakarta", "Manille", "Hong Kong"]
-		},
-		{
-			"name" :"Hong Kong",
-			"color":"red",
-			"links":["Calcutta", "Bangkok", "Ho-Chi-Minh-Ville", "Manille", "Taipei", "Shanghai"]
-		},
-		{
-			"name" :"Shanghai",
-			"color":"red",
-			"links":["Hong Kong", "Taipei", "Tokyo", "Seoul", "Pekin"]
-		},
-		{
-			"name" :"Pekin",
-			"color":"red",
-			"links":["Seoul", "Shanghai"]
-		},
-		{
-			"name" :"Seoul",
-			"color":"red",
-			"links":["Pekin", "Tokyo", "Shanghai"]
-		},
-		{
-			"name" :"Tokyo",
-			"color":"red",
-			"links":["Seoul", "Shanghai", "Osaka", "San Francisco"]
-		},
-		{
-			"name" :"Osaka",
-			"color":"red",
-			"links":["Tokyo", "Taipei"]
-		},
-		{
-			"name" :"Taipei",
-			"color":"red",
-			"links":["Osaka", "Shanghai", "Hong Kong", "Manille"]
-		},
-		{
-			"name" :"Manille",
-			"color":"red",
-			"links":["San Francisco", "Taipei", "Hong Kong", "Ho-Chi-Minh-Ville", "Sydney"]
-		},
-		/* Yellows */
-		{
-			"name" :"Khartoum",
-			"color":"yellow",
-			"links":["Le Caire", "Lagos", "Kinshasa", "Johannesburg"]
-		},
-		{
-			"name" :"Johannesburg",
-			"color":"yellow",
-			"links":["Khartoum", "Kinshasa"]
-		},
-		{
-			"name" :"Kinshasa",
-			"color":"yellow",
-			"links":["Lagos", "Khartoum", "Johannesburg"]
-		},
-		{
-			"name" :"Lagos",
-			"color":"yellow",
-			"links":["Khartoum",	"Kinshasa",	"Sao Paulo"]
-		},
-		{
-			"name" :"Sao Paulo",
-			"color":"yellow",
-			"links":["Lagos", "Madrid", "Bogota", "Buenos Aires"]
-		},
-		{
-			"name" :"Buenos Aires",
-			"color":"yellow",
-			"links":["Bogota", "Sao Paulo"]
-		},
-		{
-			"name" :"Bogota",
-			"color":"yellow",
-			"links":["Sao Paulo", "Buenos Aires", "Miami", "Mexico", "Lima"]
-		},
-		{
-			"name" :"Santiago",
-			"color":"yellow",
-			"links":["Lima"]
-		},
-		{
-			"name" :"Lima",
-			"color":"yellow",
-			"links":["Santiago", "Bogota", "Mexico"]
-		},
-		{
-			"name" :"Miami",
-			"color":"yellow",
-			"links":["Atlanta",	"Washington", "Bogota", "Mexico"]
-		},
-		{
-			"name" :"Mexico",
-			"color":"yellow",
-			"links":["Lima", "Bogota", "Miami", "Chicago", "Los Angeles"]
-		},
-		{
-			"name" :"Los Angeles",
-			"color":"yellow",
-			"links":["Mexico", "Chicago", "San Francisco", "Sydney"]
-		},
-	]
-}
+[
+	/* Bleues */
+	{
+		"name" :"San Francisco",
+		"color":"blue",
+		"links":["Chicago", "Los Angeles", "Manille", "Tokyo"]
+	},
+	{
+		"name" :"Chicago",
+		"color":"blue",
+		"links":["San Francisco", "Los Angeles", "Montreal", "Atlanta", "Mexico"]
+	},
+	{
+		"name" :"Atlanta",
+		"color":"blue",
+		"links":["Chicago", "Washington", "Miami"]
+	},
+	{
+		"name" :"Washington",
+		"color":"blue",
+		"links":["Miami", "Atlanta", "Montreal", "New York"]
+	},
+	{
+		"name" :"Montreal",
+		"color":"blue",
+		"links":["Chicago", "Washington", "New York"]
+	},
+	{
+		"name" :"New York",
+		"color":"blue",
+		"links":["Montreal", "Washington", "Madrid", "Londres"]
+	},
+	{
+		"name" :"Londres",
+		"color":"blue",
+		"links":["New York", "Madrid", "Paris", "Essen"]
+	},
+	{
+		"name" :"Madrid",
+		"color":"blue",
+		"links":["Londres", "New York", "Paris", "Alger", "Sao Paulo"]
+	},
+	{
+		"name" :"Paris",
+		"color":"blue",
+		"links":["Madrid", "Londres", "Essen", "Milan", "Alger"]
+	},
+	{
+		"name" :"Essen",
+		"color":"blue",
+		"links":["Londres", "Paris", "Milan", "Saint-Petersbourg"]
+	},
+	{
+		"name" :"Milan",
+		"color":"blue",
+		"links":["Essen", "Paris", "Istanbul"]
+	},
+	{
+		"name" :"Saint-Petersbourg",
+		"color":"blue",
+		"links":["Moscou", "Istanbul", "Essen"]
+	},
+	/* Noires */
+	{
+		"name" :"Alger",
+		"color":"black",
+		"links":["Madrid", "Paris", "Istanbul", "Le Caire"]
+	},
+	{
+		"name" :"Le Caire",
+		"color":"black",
+		"links":["Alger", "Istanbul", "Bagdad", "Riyad", "Khartoum"]
+	},
+	{
+		"name" :"Istanbul",
+		"color":"black",
+		"links":["Alger", "Milan", "Saint-Petersbourg", "Moscou", "Bagdad", "Le Caire"]
+	},
+	{
+		"name" :"Moscou",
+		"color":"black",
+		"links":["Saint-Petersbourg", "Istanbul", "Teheran"]
+	},
+	{
+		"name" :"Bagdad",
+		"color":"black",
+		"links":["Le Caire", "Istanbul", "Teheran", "Karachi", "Riyad"]
+	},
+	{
+		"name" :"Riyad",
+		"color":"black",
+		"links":["Le Caire", "Bagdad", "Karachi"]
+	},
+	{
+		"name" :"Teheran",
+		"color":"black",
+		"links":["Moscou", "Bagdad", "Karachi", "Delhi"]
+	},
+	{
+		"name" :"Karachi",
+		"color":"black",
+		"links":["Riyad", "Bagdad", "Teheran", "Delhi", "Mumbai"]
+	},
+	{
+		"name" :"Delhi",
+		"color":"black",
+		"links":["Calcutta", "Chennai", "Mumbai", "Karachi", "Teheran"]
+	},
+	{
+		"name" :"Mumbai",
+		"color":"black",
+		"links":["Karachi", "Delhi", "Chennai"]
+	},
+	{
+		"name" :"Calcutta",
+		"color":"black",
+		"links":["Hong Kong", "Bangkok", "Chennai", "Delhi"]
+	},
+	{
+		"name" :"Chennai",
+		"color":"black",
+		"links":["Mumbai", "Delhi", "Calcutta", "Bangkok", "Jakarta"]
+	},
+	/* Rouges */
+	{
+		"name" :"Bangkok",
+		"color":"red",
+		"links":["Calcutta", "Chennai", "Jakarta", "Ho-Chi-Minh-Ville", "Hong Kong"]
+	},
+	{
+		"name" :"Jakarta",
+		"color":"red",
+		"links":["Bangkok", "Chennai", "Sydney", "Ho-Chi-Minh-Ville"]
+	},
+	{
+		"name" :"Sydney",
+		"color":"red",
+		"links":["Manille", "Jakarta", "Los Angeles"]
+	},
+	{
+		"name" :"Ho-Chi-Minh-Ville",
+		"color":"red",
+		"links":["Bangkok", "Jakarta", "Manille", "Hong Kong"]
+	},
+	{
+		"name" :"Hong Kong",
+		"color":"red",
+		"links":["Calcutta", "Bangkok", "Ho-Chi-Minh-Ville", "Manille", "Taipei", "Shanghai"]
+	},
+	{
+		"name" :"Shanghai",
+		"color":"red",
+		"links":["Hong Kong", "Taipei", "Tokyo", "Seoul", "Pekin"]
+	},
+	{
+		"name" :"Pekin",
+		"color":"red",
+		"links":["Seoul", "Shanghai"]
+	},
+	{
+		"name" :"Seoul",
+		"color":"red",
+		"links":["Pekin", "Tokyo", "Shanghai"]
+	},
+	{
+		"name" :"Tokyo",
+		"color":"red",
+		"links":["Seoul", "Shanghai", "Osaka", "San Francisco"]
+	},
+	{
+		"name" :"Osaka",
+		"color":"red",
+		"links":["Tokyo", "Taipei"]
+	},
+	{
+		"name" :"Taipei",
+		"color":"red",
+		"links":["Osaka", "Shanghai", "Hong Kong", "Manille"]
+	},
+	{
+		"name" :"Manille",
+		"color":"red",
+		"links":["San Francisco", "Taipei", "Hong Kong", "Ho-Chi-Minh-Ville", "Sydney"]
+	},
+	/* Jaunes */
+	{
+		"name" :"Khartoum",
+		"color":"yellow",
+		"links":["Le Caire", "Lagos", "Kinshasa", "Johannesburg"]
+	},
+	{
+		"name" :"Johannesburg",
+		"color":"yellow",
+		"links":["Khartoum", "Kinshasa"]
+	},
+	{
+		"name" :"Kinshasa",
+		"color":"yellow",
+		"links":["Lagos", "Khartoum", "Johannesburg"]
+	},
+	{
+		"name" :"Lagos",
+		"color":"yellow",
+		"links":["Khartoum",	"Kinshasa",	"Sao Paulo"]
+	},
+	{
+		"name" :"Sao Paulo",
+		"color":"yellow",
+		"links":["Lagos", "Madrid", "Bogota", "Buenos Aires"]
+	},
+	{
+		"name" :"Buenos Aires",
+		"color":"yellow",
+		"links":["Bogota", "Sao Paulo"]
+	},
+	{
+		"name" :"Bogota",
+		"color":"yellow",
+		"links":["Sao Paulo", "Buenos Aires", "Miami", "Mexico", "Lima"]
+	},
+	{
+		"name" :"Santiago",
+		"color":"yellow",
+		"links":["Lima"]
+	},
+	{
+		"name" :"Lima",
+		"color":"yellow",
+		"links":["Santiago", "Bogota", "Mexico"]
+	},
+	{
+		"name" :"Miami",
+		"color":"yellow",
+		"links":["Atlanta",	"Washington", "Bogota", "Mexico"]
+	},
+	{
+		"name" :"Mexico",
+		"color":"yellow",
+		"links":["Lima", "Bogota", "Miami", "Chicago", "Los Angeles"]
+	},
+	{
+		"name" :"Los Angeles",
+		"color":"yellow",
+		"links":["Mexico", "Chicago", "San Francisco", "Sydney"]
+	}
+]

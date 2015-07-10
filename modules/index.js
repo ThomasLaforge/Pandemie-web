@@ -1,14 +1,8 @@
-import {sum, square, variable, MyClass} from './import';
- 
-// 25
-console.log(square(5));
- 
-var cred = {
-    name: 'Ritesh Thomas',
-    enrollmentNo: 11115078
-}
- 
-var x = new MyClass(cred);
- 
-//Ritesh Kumar
-console.log(x.getName());
+var $ = require('Jquery');
+var cities = require('../Cities.json');
+
+import {Deck} from './Deck';
+import {Card} from './Card';
+
+var x = new Deck();
+console.log(x);
