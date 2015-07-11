@@ -20,6 +20,7 @@ class Deck {
 			console.log('Tentative de suppression d\'une carte qui n\'est pas présente dans la main');
 		}
     }
+    
     shuffle(){
         var currentIndex = this.arrayDeck.length, temporaryValue, randomIndex ;
 
@@ -35,6 +36,19 @@ class Deck {
         this.arrayDeck[currentIndex] = this.arrayDeck[randomIndex];
         this.arrayDeck[randomIndex] = temporaryValue;
         }
+    }
+    
+    length(){
+        return this.arrayDeck.length;
+    }
+    
+    pickCards(nbCards){
+        var res = [];
+        for(var i=0;i<nbCards;i++){
+            res.push(this.arrayDeck[0]);
+            this.arrayDeck.splice(0,1);
+        }
+        return res;
     }
 }
  

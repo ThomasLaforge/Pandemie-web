@@ -332,6 +332,19 @@ var Deck = (function () {
         }
     };
 
+    Deck.prototype.length = function length() {
+        return this.arrayDeck.length;
+    };
+
+    Deck.prototype.pickCards = function pickCards(nbCards) {
+        var res = [];
+        for (var i = 0; i < nbCards; i++) {
+            res.push(this.arrayDeck[0]);
+            this.arrayDeck.splice(0, 1);
+        }
+        return res;
+    };
+
     return Deck;
 })();
 
@@ -347,8 +360,11 @@ var _Card = require('./Card');
 var $ = require('Jquery');
 var cities = require('../Cities.json');
 
-var x = new _Deck.Deck();
-console.log(x);
+var deck_players = new _Deck.Deck();
+var deck_propagation = new _Deck.Deck();
+var player1 = new Player(Role1);
+var player2 = new Player(Role2);
+var player3 = new Player(Role3);
 
 },{"../Cities.json":1,"./Card":2,"./Deck":3,"Jquery":5}],5:[function(require,module,exports){
 /*!

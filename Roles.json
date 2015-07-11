@@ -1,0 +1,15 @@
+[
+	// Chercheuse
+	{
+		"name" : "Chercheuse",
+		"description" : "Pour une action, la chercheuse peut donner n'importe quelle carte Ville de sa main à un autre joueur situe dans la même ville qu'elle. La carte n'a pas à correpondre avec la ville occupee par les deux joueurs. La carte doit provenir de la main de la Chercheuse, mais la carte peut être donnee au tour de la Chercheuse ou de l'autre joueur.",
+		"color" : "brown"
+	},
+	// Expert aux operations
+	{
+		"name" : "Expert aux operations",
+		"color": "lightgreen",
+		"description" : "Pour une action, l'Expert aux operations peut: soitconstruire une station de recherche dans sa ville actuelle sans avoir à se defausser d'une carte; soit une fois par tour, se deplacer d'une ville avec une station de recherche vers n'importe quelle ville en defaussant une carte ville de son choix."
+	}
+	
+]
