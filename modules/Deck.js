@@ -3,14 +3,23 @@ var cities = require('../Cities.json');
 import {Card} from './Card';
 
 class Deck {
+    //Constructor   : arrayDeck with all cards, shuffle him, and create a discard array
+    //removeCard    : remove a card from the deck
+    //shuffle       : shuffle an in deck
+    //shuffleDeck   : shuffle the arrayDeck
+    //length        : give the length of the deck
+    //pickCards     : return an array with the firts cards of the deck. 
+    
     constructor() {
         var array = [];
         $.each(cities, function(){
             array.push(new Card(this.name)); 
         });
         this.arrayDeck = array;
-        this.shuffle();
+        this.shuffle(this.arrayDeck);
+        this.arrayDiscard = [];
     }
+    
     removeCard(card) {
         var pos = this.arrayDeck.indexOf(Card);
 		if(pos > -1){
@@ -21,9 +30,13 @@ class Deck {
 		}
     }
     
-    shuffle(){
-        var currentIndex = this.arrayDeck.length, temporaryValue, randomIndex ;
-
+    shuffleDeck(){
+        this.shuffle(this.arrayDeck);
+    }
+    
+    shuffle(array){
+        var currentIndex = array.length, temporaryValue, randomIndex ;
+        
         // While there remain elements to shuffle...
         while (0 !== currentIndex) {
         
@@ -32,9 +45,9 @@ class Deck {
         currentIndex -= 1;
         
         // And swap it with the current element.
-        temporaryValue = this.arrayDeck[currentIndex];
-        this.arrayDeck[currentIndex] = this.arrayDeck[randomIndex];
-        this.arrayDeck[randomIndex] = temporaryValue;
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
         }
     }
     
@@ -49,6 +62,12 @@ class Deck {
             this.arrayDeck.splice(0,1);
         }
         return res;
+    }
+    
+    discard(arrayOfCard){
+        $.each(arrayOfCard, function(){
+            this.discard.push(this); 
+        });
     }
 }
  

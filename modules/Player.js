@@ -1,7 +1,7 @@
 class Player {
-    constructor(name, role) {
+    constructor(name, roleName) {
         this._name = name;
-		this._role = role;
+		this._role = new Role(roleName);
     }
     removeCard(card) {
         var pos = this.arrayDeck.indexOf(Card);

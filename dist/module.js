@@ -280,7 +280,7 @@ var Card = (function () {
 
 exports.Card = Card;
 
-},{"../Cities.json":1,"Jquery":5}],3:[function(require,module,exports){
+},{"../Cities.json":1,"Jquery":8}],3:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -293,6 +293,13 @@ var $ = require('Jquery');
 var cities = require('../Cities.json');
 
 var Deck = (function () {
+    //Constructor   : arrayDeck with all cards, shuffle him, and create a discard array
+    //removeCard    : remove a card from the deck
+    //shuffle       : shuffle an in deck
+    //shuffleDeck   : shuffle the arrayDeck
+    //length        : give the length of the deck
+    //pickCards     : return an array with the firts cards of the deck.
+
     function Deck() {
         _classCallCheck(this, Deck);
 
@@ -301,7 +308,8 @@ var Deck = (function () {
             array.push(new _Card.Card(this.name));
         });
         this.arrayDeck = array;
-        this.shuffle();
+        this.shuffle(this.arrayDeck);
+        this.arrayDiscard = [];
     }
 
     Deck.prototype.removeCard = function removeCard(card) {
@@ -313,8 +321,12 @@ var Deck = (function () {
         }
     };
 
-    Deck.prototype.shuffle = function shuffle() {
-        var currentIndex = this.arrayDeck.length,
+    Deck.prototype.shuffleDeck = function shuffleDeck() {
+        this.shuffle(this.arrayDeck);
+    };
+
+    Deck.prototype.shuffle = function shuffle(array) {
+        var currentIndex = array.length,
             temporaryValue,
             randomIndex;
 
@@ -326,9 +338,9 @@ var Deck = (function () {
             currentIndex -= 1;
 
             // And swap it with the current element.
-            temporaryValue = this.arrayDeck[currentIndex];
-            this.arrayDeck[currentIndex] = this.arrayDeck[randomIndex];
-            this.arrayDeck[randomIndex] = temporaryValue;
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
         }
     };
 
@@ -345,28 +357,155 @@ var Deck = (function () {
         return res;
     };
 
+    Deck.prototype.discard = function discard(arrayOfCard) {
+        $.each(arrayOfCard, function () {
+            this.discard.push(this);
+        });
+    };
+
     return Deck;
 })();
 
 exports.Deck = Deck;
 
-},{"../Cities.json":1,"./Card":2,"Jquery":5}],4:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":2,"Jquery":8}],4:[function(require,module,exports){
 'use strict';
 
-var _Deck = require('./Deck');
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var Player = (function () {
+	function Player(name, roleName) {
+		_classCallCheck(this, Player);
+
+		this._name = name;
+		this._role = new Role(roleName);
+	}
+
+	Player.prototype.removeCard = function removeCard(card) {
+		var pos = this.arrayDeck.indexOf(Card);
+		if (pos > -1) {
+			this.arrayDeck.splice(pos, 1);
+		} else {
+			console.log('Tentative de suppression d\'une carte qui n\'est pas présente dans la main');
+		}
+	};
+
+	return Player;
+})();
+
+exports.Player = Player;
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _Deck2 = require('./Deck');
+
+var _Player = require('./Player');
+
+var PlayerDeck = (function (_Deck) {
+	function PlayerDeck() {
+		_classCallCheck(this, PlayerDeck);
+
+		_Deck.call(this);
+	}
+
+	_inherits(PlayerDeck, _Deck);
+
+	PlayerDeck.prototype.getCard = function getCard(Player, Card) {
+		Player.pickCard(Card);
+		this.removeCard(Card);
+	};
+
+	return PlayerDeck;
+})(_Deck2.Deck);
+
+exports.PlayerDeck = PlayerDeck;
+/*players, nbEpidemies, */
+
+},{"./Deck":3,"./Player":4}],6:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _Deck2 = require('./Deck');
+
+var _Player = require('./Player');
+
+var array_propagationForce = [2, 2, 2, 3, 3, 3, 4, 4];
+
+var PropagationDeck = (function (_Deck) {
+	function PropagationDeck() {
+		_classCallCheck(this, PropagationDeck);
+
+		_Deck.call(this);
+		this.propagationForceLevel = 0;
+	}
+
+	_inherits(PropagationDeck, _Deck);
+
+	PropagationDeck.prototype.doEpidemy = function doEpidemy() {
+		this.increasePropagationForce();
+		this.shuffleDiscard();
+		this.addDiscardToDeck();
+	};
+
+	PropagationDeck.prototype.shuffleDiscard = function shuffleDiscard() {
+		this.shuffle(this.arrayDiscard);
+	};
+
+	PropagationDeck.prototype.addDiscardToDeck = function addDiscardToDeck() {
+		this.arrayDeck = this.arrayDeck.concat(this.arrayDiscard);
+	};
+
+	return PropagationDeck;
+})(_Deck2.Deck);
+
+exports.PropagationDeck = PropagationDeck;
+/*players, nbEpidemies,*/
+
+},{"./Deck":3,"./Player":4}],7:[function(require,module,exports){
+'use strict';
+
+var _PropagationDeck = require('./PropagationDeck');
+
+var _PlayerDeck = require('./PlayerDeck');
 
 var _Card = require('./Card');
 
 var $ = require('Jquery');
 var cities = require('../Cities.json');
 
-var deck_players = new _Deck.Deck();
-var deck_propagation = new _Deck.Deck();
-var player1 = new Player(Role1);
-var player2 = new Player(Role2);
-var player3 = new Player(Role3);
+//////////////////////////////////////////////////
+//////      Initialisation de la partie     //////
+//////////////////////////////////////////////////
+var deck_players = new _PlayerDeck.PlayerDeck();
+var deck_propagation = new _PropagationDeck.PropagationDeck();
 
-},{"../Cities.json":1,"./Card":2,"./Deck":3,"Jquery":5}],5:[function(require,module,exports){
+var arrayA = [1, 2];
+console.log(arrayA);
+var arrayB = [3, 4];
+arrayA = arrayA.concat(arrayB);
+console.log(arrayA);
+
+$(function () {});
+
+//on submit => on crée une partie
+//get nb joueur
+//$('input[type=radio][name=nb_player]').val();
+
+},{"../Cities.json":1,"./Card":2,"./PlayerDeck":5,"./PropagationDeck":6,"Jquery":8}],8:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9578,4 +9717,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[4]);
+},{}]},{},[7]);

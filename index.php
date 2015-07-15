@@ -14,7 +14,9 @@
       </p>
       
       <h2>Configurer votre partie:</h2>
+      <!-- Formulaire de création de partie -->
       <form action="partie.php">
+        <!-- Nombre de joueurs-->
         <label for="nb_player">Nombre de joueurs:</label>
         <input type="radio" name="nb_player" value="2" checked>2
         <input type="radio" name="nb_player" value="3">3
