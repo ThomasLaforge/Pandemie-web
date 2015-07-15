@@ -22,6 +22,7 @@ class PropagationDeck extends Deck{
 	
 	addDiscardToDeck(){
 		this.arrayDeck = this.arrayDeck.concat(this.arrayDiscard);
+		console.log('défausse ajoutée à la pioche')
 	}
 	
 }
