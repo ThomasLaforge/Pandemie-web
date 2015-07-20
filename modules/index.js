@@ -20,7 +20,14 @@ console.log(arrayA);
 $(function(){
 	//on submit => on crée une partie
 	//get nb joueur
-	//$('input[type=radio][name=nb_player]').val();
 	
+	////////////////////////////////////////////////
+	///////////        Evenements       ////////////
+	////////////////////////////////////////////////
+	
+	// Changement du nombre de joueurs
+	$('input[type=radio][name=nb_player]').on('change', function(){
+		console.log('Le nombre de joueur vient de changer. Il y a actuellement ' + $(this).val() + ' joueurs.');
+	});
 
 });

@@ -375,6 +375,10 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var _Card = require('./Card');
+
+var _Deck = require('./Deck');
+
 var Player = (function () {
 	function Player(name, roleName) {
 		_classCallCheck(this, Player);
@@ -384,7 +388,7 @@ var Player = (function () {
 	}
 
 	Player.prototype.removeCard = function removeCard(card) {
-		var pos = this.arrayDeck.indexOf(Card);
+		var pos = this.arrayDeck.indexOf(_Card.Card);
 		if (pos > -1) {
 			this.arrayDeck.splice(pos, 1);
 		} else {
@@ -397,7 +401,7 @@ var Player = (function () {
 
 exports.Player = Player;
 
-},{}],5:[function(require,module,exports){
+},{"./Card":2,"./Deck":3}],5:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -500,11 +504,19 @@ var arrayB = [3, 4];
 arrayA = arrayA.concat(arrayB);
 console.log(arrayA);
 
-$(function () {});
+$(function () {
+	//on submit => on crée une partie
+	//get nb joueur
 
-//on submit => on crée une partie
-//get nb joueur
-//$('input[type=radio][name=nb_player]').val();
+	////////////////////////////////////////////////
+	///////////        Evenements       ////////////
+	////////////////////////////////////////////////
+
+	// Changement du nombre de joueurs
+	$('input[type=radio][name=nb_player]').on('change', function () {
+		console.log('Le nombre de joueur vient de changer. Il y a actuellement ' + $(this).val() + ' joueurs.');
+	});
+});
 
 },{"../Cities.json":1,"./Card":2,"./PlayerDeck":5,"./PropagationDeck":6,"Jquery":8}],8:[function(require,module,exports){
 /*!

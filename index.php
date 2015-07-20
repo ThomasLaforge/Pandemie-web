@@ -17,10 +17,25 @@
       <!-- Formulaire de création de partie -->
       <form action="partie.php">
         <!-- Nombre de joueurs-->
-        <label for="nb_player">Nombre de joueurs:</label>
+        <label for="nb_player">Nombre de joueurs :</label>
         <input type="radio" name="nb_player" value="2" checked>2
         <input type="radio" name="nb_player" value="3">3
         <input type="radio" name="nb_player" value="4">4
+        
+        <!-- Role selection -->
+        <div class="tab-roles">
+          
+        </div
+        
+        <br>
+        
+        <!-- Difficulté -->
+        <label for="game_lvl">Difficulté :</label>
+        <input type="radio" name="game_lvl" value="4" checked>Easy (4 epidemies)
+        <input type="radio" name="game_lvl" value="5">Normal (5 epidemies)
+        <input type="radio" name="game_lvl" value="6">Difficult (6 epidemies)
+        <input type="radio" name="game_lvl" value="7">Hard core (7 epidemies)
+        
       </form>
     </header>
 
