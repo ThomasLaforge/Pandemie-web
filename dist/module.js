@@ -467,6 +467,7 @@ var PropagationDeck = (function (_Deck) {
 
 	PropagationDeck.prototype.addDiscardToDeck = function addDiscardToDeck() {
 		this.arrayDeck = this.arrayDeck.concat(this.arrayDiscard);
+		console.log('défausse ajoutée à la pioche');
 	};
 
 	return PropagationDeck;
