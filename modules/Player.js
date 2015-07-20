@@ -1,3 +1,6 @@
+import {Card} from './Card';
+import {Deck} from './Deck';
+
 class Player {
     constructor(name, roleName) {
         this._name = name;
