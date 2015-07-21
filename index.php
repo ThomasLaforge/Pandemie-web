@@ -25,7 +25,7 @@
         <!-- Role selection -->
         <div class="tab-roles">
           
-        </div
+        </div>
         
         <br>
         
