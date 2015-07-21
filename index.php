@@ -24,8 +24,8 @@
         
         <!-- Role selection -->
         <div class="tab-roles">
-          
-        </div
+          <p>Ici se trouve les roles des différents joueurs pour la partie.</p>
+        </div>
         
         <br>
         
