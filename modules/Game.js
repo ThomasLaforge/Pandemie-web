@@ -14,4 +14,6 @@ class Game {
 	showPlayers(){
 		
 	}
-}
+} 
+
+export { Game };

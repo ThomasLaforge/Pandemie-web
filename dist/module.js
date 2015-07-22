@@ -296,7 +296,7 @@ var Card = (function () {
 
 exports.Card = Card;
 
-},{"../Cities.json":1,"Jquery":10}],4:[function(require,module,exports){
+},{"../Cities.json":1,"Jquery":11}],4:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -384,7 +384,35 @@ var Deck = (function () {
 
 exports.Deck = Deck;
 
-},{"../Cities.json":1,"./Card":3,"Jquery":10}],5:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"Jquery":11}],5:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _Player = require('./Player');
+
+var _Role = require('./Role');
+
+var Game = (function () {
+	function Game(nbPlayer, difficulty) {
+		_classCallCheck(this, Game);
+
+		this.nbPlayer = nbPlayer;
+		this.difficulty = difficulty;
+		this.arrayPlayers = [];
+		for (var i = 0; i < this.nbPlayer; i++) {}
+	}
+
+	Game.prototype.showPlayers = function showPlayers() {};
+
+	return Game;
+})();
+
+exports.Game = Game;
+
+},{"./Player":6,"./Role":9}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -417,7 +445,7 @@ var Player = (function () {
 
 exports.Player = Player;
 
-},{"./Card":3,"./Deck":4}],6:[function(require,module,exports){
+},{"./Card":3,"./Deck":4}],7:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -450,7 +478,7 @@ var PlayerDeck = (function (_Deck) {
 exports.PlayerDeck = PlayerDeck;
 /*players, nbEpidemies, */
 
-},{"./Deck":4,"./Player":5}],7:[function(require,module,exports){
+},{"./Deck":4,"./Player":6}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -496,7 +524,7 @@ var PropagationDeck = (function (_Deck) {
 exports.PropagationDeck = PropagationDeck;
 /*players, nbEpidemies,*/
 
-},{"./Deck":4,"./Player":5}],8:[function(require,module,exports){
+},{"./Deck":4,"./Player":6}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -529,7 +557,6 @@ var Role = (function () {
         _classCallCheck(this, Role);
 
         var infoRole = this.findInfoRole(roleName);
-        console.log(infoRole);
         if (infoRole != null) {
             this.name = roleName;
             this.color = infoRole.color;
@@ -538,10 +565,6 @@ var Role = (function () {
             return null;
         }
     }
-
-    Role.getRandomOne = function getRandomOne() {
-        return 'randomRole';
-    };
 
     Role.prototype.getNumberOfRoles = function getNumberOfRoles() {
         var res = 0;
@@ -552,7 +575,6 @@ var Role = (function () {
     };
 
     Role.prototype.findInfoRole = function findInfoRole(roleName) {
-        console.log('roleName = ' + roleName);
         var i = 0;
         var res;
 
@@ -577,7 +599,7 @@ var Role = (function () {
 
 exports.Role = Role;
 
-},{"../Roles.json":2,"Jquery":10}],9:[function(require,module,exports){
+},{"../Roles.json":2,"Jquery":11}],10:[function(require,module,exports){
 'use strict';
 
 var _PropagationDeck = require('./PropagationDeck');
@@ -588,21 +610,22 @@ var _Card = require('./Card');
 
 var _Role = require('./Role');
 
+var _Game = require('./Game');
+
 var $ = require('Jquery');
 var cities = require('../Cities.json');
 
 //////////////////////////////////////////////////
 //////      Initialisation de la partie     //////
 //////////////////////////////////////////////////
-var deck_players = new _PlayerDeck.PlayerDeck();
-var deck_propagation = new _PropagationDeck.PropagationDeck();
-
-var role = new _Role.Role('Chercheuse');
-console.log(role.getColor());
-
 $(function () {
 	//on submit => on crée une partie
 	//get nb joueur
+	var nbPlayer = getActualNbPlayer();
+	var difficulty = getActualLvl();
+	console.log(nbPlayer);
+	console.log(difficulty);
+	var myGame = new _Game.Game(nbPlayer, difficulty);
 
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -611,10 +634,34 @@ $(function () {
 	// Changement du nombre de joueurs
 	$('input[type=radio][name=nb_player]').on('change', function () {
 		console.log('Le nombre de joueur vient de changer. Il y a actuellement ' + $(this).val() + ' joueurs.');
+		nbPlayer = $(this).val();
 	});
+
+	// Changement du niveau de la partie
+	$('input[type=radio][name=game_lvl]').on('change', function () {
+		console.log('La difficulté vient de changer : ' + $(this).val() + ' épidémies.');
+		difficulty = $(this).val();
+	});
+
+	//Lancement de la partie
+	$('#btn-start-game').on('click', function () {
+		console.log('Lancer une nouvelle partie.');
+	});
+
+	function startGame() {
+		return false;
+	};
 });
 
-},{"../Cities.json":1,"./Card":3,"./PlayerDeck":6,"./PropagationDeck":7,"./Role":8,"Jquery":10}],10:[function(require,module,exports){
+function getActualLvl() {
+	return $('input[type=radio][name=game_lvl]').val();
+}
+
+function getActualNbPlayer() {
+	return $('input[type=radio][name=nb_player]').val();
+}
+
+},{"../Cities.json":1,"./Card":3,"./Game":5,"./PlayerDeck":7,"./PropagationDeck":8,"./Role":9,"Jquery":11}],11:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9826,4 +9873,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[9]);
+},{}]},{},[10]);

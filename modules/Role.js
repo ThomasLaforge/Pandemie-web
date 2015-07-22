@@ -22,7 +22,6 @@ var $ = require('Jquery');
 class Role {
     constructor(roleName) {
         var infoRole = this.findInfoRole(roleName);
-        console.log(infoRole);
         if(infoRole != null){
             this.name = roleName;
             this.color = infoRole.color;
@@ -31,10 +30,6 @@ class Role {
         else{
             return null;
         }
-    }
-    
-    static getRandomOne(){
-        return 'randomRole';
     }
     
     getNumberOfRoles(){
