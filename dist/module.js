@@ -552,7 +552,6 @@ var Role = (function () {
     };
 
     Role.prototype.findInfoRole = function findInfoRole(roleName) {
-        console.log('roleName = ' + roleName);
         var i = 0;
         var res;
 
