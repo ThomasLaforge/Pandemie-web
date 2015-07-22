@@ -22,11 +22,6 @@
         <input type="radio" name="nb_player" value="3">3
         <input type="radio" name="nb_player" value="4">4
         
-        <!-- Role selection -->
-        <div class="tab-roles">
-          
-        </div>
-        
         <br>
         
         <!-- Difficulté -->

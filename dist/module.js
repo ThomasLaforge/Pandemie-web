@@ -246,6 +246,22 @@ module.exports=[
 	}
 ]
 },{}],2:[function(require,module,exports){
+module.exports=[
+	// Chercheuse
+	{
+		"name" : "Chercheuse",
+		"description" : "Pour une action, la chercheuse peut donner n'importe quelle carte Ville de sa main à un autre joueur situe dans la même ville qu'elle. La carte n'a pas à correpondre avec la ville occupee par les deux joueurs. La carte doit provenir de la main de la Chercheuse, mais la carte peut être donnee au tour de la Chercheuse ou de l'autre joueur.",
+		"color" : "brown"
+	},
+	// Expert aux operations
+	{
+		"name" : "Expert aux operations",
+		"color": "lightgreen",
+		"description" : "Pour une action, l'Expert aux operations peut: soitconstruire une station de recherche dans sa ville actuelle sans avoir à se defausser d'une carte; soit une fois par tour, se deplacer d'une ville avec une station de recherche vers n'importe quelle ville en defaussant une carte ville de son choix."
+	}
+	
+]
+},{}],3:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -280,7 +296,7 @@ var Card = (function () {
 
 exports.Card = Card;
 
-},{"../Cities.json":1,"Jquery":8}],3:[function(require,module,exports){
+},{"../Cities.json":1,"Jquery":10}],4:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -368,7 +384,7 @@ var Deck = (function () {
 
 exports.Deck = Deck;
 
-},{"../Cities.json":1,"./Card":2,"Jquery":8}],4:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"Jquery":10}],5:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -401,7 +417,7 @@ var Player = (function () {
 
 exports.Player = Player;
 
-},{"./Card":2,"./Deck":3}],5:[function(require,module,exports){
+},{"./Card":3,"./Deck":4}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -434,7 +450,7 @@ var PlayerDeck = (function (_Deck) {
 exports.PlayerDeck = PlayerDeck;
 /*players, nbEpidemies, */
 
-},{"./Deck":3,"./Player":4}],6:[function(require,module,exports){
+},{"./Deck":4,"./Player":5}],7:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -480,7 +496,88 @@ var PropagationDeck = (function (_Deck) {
 exports.PropagationDeck = PropagationDeck;
 /*players, nbEpidemies,*/
 
-},{"./Deck":3,"./Player":4}],7:[function(require,module,exports){
+},{"./Deck":4,"./Player":5}],8:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var roles = require('../Roles.json');
+var $ = require('Jquery');
+
+///////////////////////////////////////////////////////////////////////
+///////////     Debug des roles contenus dans roles.json    ///////////
+///////////////////////////////////////////////////////////////////////
+//                                                                   //
+// 1 - Debug du json complet                                         //
+// console.log(roles);
+//                                                                   //
+// ----------------------------------------------------------------  //
+//                                                                   //
+// 2 - Pour chaque roles afficher une/plusieurs propriétés           //
+// Liste des propriétés : name, description, color                   //
+/*
+    $.each(roles, function(){
+        console.log(this.name);
+    });
+*/
+///////////////////////////////////////////////////////////////////////
+
+var Role = (function () {
+    function Role(roleName) {
+        _classCallCheck(this, Role);
+
+        var infoRole = this.findInfoRole(roleName);
+        console.log(infoRole);
+        if (infoRole != null) {
+            this.name = roleName;
+            this.color = infoRole.color;
+            this.description = infoRole.description;
+        } else {
+            return null;
+        }
+    }
+
+    Role.getRandomOne = function getRandomOne() {
+        return 'randomRole';
+    };
+
+    Role.prototype.getNumberOfRoles = function getNumberOfRoles() {
+        var res = 0;
+        $.each(roles, function () {
+            res++;
+        });
+        return res;
+    };
+
+    Role.prototype.findInfoRole = function findInfoRole(roleName) {
+        console.log('roleName = ' + roleName);
+        var i = 0;
+        var res;
+
+        while (i < this.getNumberOfRoles() && roles[i].name != roleName) {
+            i++;
+        }
+        if (i < this.getNumberOfRoles()) {
+            res = roles[i];
+        } else {
+            res = null;
+        }
+
+        return res;
+    };
+
+    Role.prototype.getColor = function getColor() {
+        return this.color;
+    };
+
+    return Role;
+})();
+
+exports.Role = Role;
+
+},{"../Roles.json":2,"Jquery":10}],9:[function(require,module,exports){
 'use strict';
 
 var _PropagationDeck = require('./PropagationDeck');
@@ -488,6 +585,8 @@ var _PropagationDeck = require('./PropagationDeck');
 var _PlayerDeck = require('./PlayerDeck');
 
 var _Card = require('./Card');
+
+var _Role = require('./Role');
 
 var $ = require('Jquery');
 var cities = require('../Cities.json');
@@ -498,11 +597,8 @@ var cities = require('../Cities.json');
 var deck_players = new _PlayerDeck.PlayerDeck();
 var deck_propagation = new _PropagationDeck.PropagationDeck();
 
-var arrayA = [1, 2];
-console.log(arrayA);
-var arrayB = [3, 4];
-arrayA = arrayA.concat(arrayB);
-console.log(arrayA);
+var role = new _Role.Role('Chercheuse');
+console.log(role.getColor());
 
 $(function () {
 	//on submit => on crée une partie
@@ -518,7 +614,7 @@ $(function () {
 	});
 });
 
-},{"../Cities.json":1,"./Card":2,"./PlayerDeck":5,"./PropagationDeck":6,"Jquery":8}],8:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"./PlayerDeck":6,"./PropagationDeck":7,"./Role":8,"Jquery":10}],10:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9730,4 +9826,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[7]);
+},{}]},{},[9]);

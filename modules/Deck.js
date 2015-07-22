@@ -13,7 +13,7 @@ class Deck {
     constructor() {
         var array = [];
         $.each(cities, function(){
-            array.push(new Card(this.name)); 
+            array.push(new Card(this.name));
         });
         this.arrayDeck = array;
         this.shuffle(this.arrayDeck);
