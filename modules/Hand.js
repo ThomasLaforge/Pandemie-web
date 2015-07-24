@@ -5,13 +5,13 @@ class Hand {
 		this.arrayCard = [];
 	}
 	
-	addCard(Deck, Card){
+	addCard(Card){
 		if(Deck.cardIn(Card) && this.arrayCard.length <= 7){
 			Deck.delete(Card);
 			this.arrayCard.push(Card);
 		}
 		else{
-			console.log('Tentative d\'ajout de carte du deck dans la main mais la caret n\'existe pas');
+			console.log('Tentative d\'ajout de carte du deck dans la main mais la carte n\'existe pas');
 		}
 	}
 	
@@ -25,3 +25,5 @@ class Hand {
 		}
 	}
 }
+
+export {Hand};

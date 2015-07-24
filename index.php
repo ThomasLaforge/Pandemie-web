@@ -46,12 +46,37 @@
       <div class="console" id="console"></div>
     </div>
     
+    <!-- Carte du jeu -->
     <div id="mapToShow">
       <img usemap="#ImgRefMap" src="assets/img/pandemicMap.jpg" /> 
-      <map id="ImgRefMap" name="ImgRefMap">
-        <area shape="rect" alt="" title="" coords="401,87,552,182" target="" />
-        <area shape="rect" alt="" title="" coords="216,196,298,266" target="" />
-      </map>
+        <map id="ImgRefMap" name="ImgRefMap">
+          <!-- Villes bleues -->
+          <area shape="rect" alt="Chicago" title="" coords="185,238,224,285" />
+          <area shape="rect" alt="San Francisco" title="" coords="82,275,116,315" />
+          <area shape="rect" alt="Atlanta" title="" coords="218,308,252,344" />
+          <area shape="rect" alt="Montreal" title="" coords="270,241,305,280" />
+          <area shape="rect" alt="Washington" title="" coords="306,301,341,340" />
+          <area shape="rect" alt="New York" title="" coords="335,246,372,290" />
+          <area shape="rect" alt="London" title="" coords="486,203,522,238" />
+          <area shape="rect" alt="Madrid" title="" coords="472,282,513,327" />
+          <area shape="rect" alt="Paris" title="" coords="547,240,585,283" />
+          <area shape="rect" alt="Saint Petersburg" title="" coords="663,170,695,208" />
+          <area shape="rect" alt="Milan" title="" coords="604,227,641,267" />
+          <area shape="rect" alt="Essen" title="" coords="569,189,605,224" />
+          <!-- Villes jaunes -->
+
+          <!-- Villes rouges -->
+          
+          <!-- Villes noires -->
+          
+          <!-- Paquets de cartes -->
+          
+          <!-- Eclosions -->
+          
+          <!-- Degrès d'infection -->
+          
+          <!-- Remèdes -->
+        </map>
     </div>
     
     <!-- Scripts javascript  -->

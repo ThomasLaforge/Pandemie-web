@@ -310,7 +310,7 @@ var cities = require('../Cities.json');
 
 var Deck = (function () {
     //Constructor   : arrayDeck with all cards, shuffle him, and create a discard array
-    //removeCard    : remove a card from the deck
+    //removeCard    : remove a card from the rest of the game
     //shuffle       : shuffle an in deck
     //shuffleDeck   : shuffle the arrayDeck
     //length        : give the length of the deck
@@ -395,24 +395,73 @@ var _Player = require('./Player');
 
 var _Role = require('./Role');
 
+var _PlayerDeck = require('./PlayerDeck');
+
+var _PropagationDeck = require('./PropagationDeck');
+
 var Game = (function () {
 	function Game(nbPlayer, difficulty) {
 		_classCallCheck(this, Game);
 
+		this.playerDeck = new _PlayerDeck.PlayerDeck();
+		this.propagationDeck = new _PropagationDeck.PropagationDeck();
 		this.nbPlayer = nbPlayer;
 		this.difficulty = difficulty;
 		this.arrayPlayers = [];
-		for (var i = 0; i < this.nbPlayer; i++) {}
+		this.addPlayers(nbPlayer);
 	}
 
 	Game.prototype.showPlayers = function showPlayers() {};
+
+	Game.prototype.getRandomNewName = function getRandomNewName() {
+		//Get all possible names		
+		var arrayNames = _Player.Player.getArrayAllNames();
+		//Difference between all names and used names
+		arrayNames.filter(function (i) {
+			return this.getArrayPlayerNames.indexOf(i) < 0;
+		});
+
+		//return a random name from the free names		
+		return arrayNames[Math.floor(Math.random() * arrayNames.length)];
+	};
+
+	Game.prototype.getRandomNewRole = function getRandomNewRole() {
+		//Get all possible roles
+		var arrayRoles = _Role.Role.getArrayAllRoles();
+		//Difference between all roles and used roles
+		arrayRoles.filter(function (i) {
+			return this.getArrayPlayerNames.indexOf(i) < 0;
+		});
+
+		//return a random roles from the free roles
+		return arrayRoles[Math.floor(Math.random() * arrayRoles.length)];
+	};
+
+	//Ajouter un ou des joueurs
+
+	Game.prototype.addPlayer = function addPlayer() {
+		var newPlayer = new _Player.Player(this.getRandomNewName(), this.getRandomNewRole());
+		this.arrayPlayers.push(newPlayer);
+	};
+
+	Game.prototype.addPlayers = function addPlayers(nbPlayer) {
+		for (var i = 0; i < nbPlayer; i++) {
+			this.addPlayer();
+		}
+	};
+
+	Game.prototype.doEpidemy = function doEpidemy() {
+		this.propagationDeck.increasePropagationForce();
+		this.propagationDeck.shuffleDiscard();
+		this.propagationDeck.addDiscardToDeck();
+	};
 
 	return Game;
 })();
 
 exports.Game = Game;
 
-},{"./Player":6,"./Role":9}],6:[function(require,module,exports){
+},{"./Player":6,"./PlayerDeck":7,"./PropagationDeck":8,"./Role":9}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -440,6 +489,10 @@ var Player = (function () {
 		}
 	};
 
+	Player.getArrayAllNames = function getArrayAllNames() {
+		return ['Thomas', 'Willy', 'Julie', 'Kev', 'Ludo', 'Greg', 'Camille', 'Alex', 'Alexandra', 'Morgane', 'Fabrice', 'Valerie', 'Olivier'];
+	};
+
 	return Player;
 })();
 
@@ -459,7 +512,7 @@ var _Deck2 = require('./Deck');
 var _Player = require('./Player');
 
 var PlayerDeck = (function (_Deck) {
-	function PlayerDeck() {
+	function PlayerDeck(lvl /*, nbPlayer*/) {
 		_classCallCheck(this, PlayerDeck);
 
 		_Deck.call(this);
@@ -476,7 +529,6 @@ var PlayerDeck = (function (_Deck) {
 })(_Deck2.Deck);
 
 exports.PlayerDeck = PlayerDeck;
-/*players, nbEpidemies, */
 
 },{"./Deck":4,"./Player":6}],8:[function(require,module,exports){
 'use strict';
@@ -503,12 +555,6 @@ var PropagationDeck = (function (_Deck) {
 
 	_inherits(PropagationDeck, _Deck);
 
-	PropagationDeck.prototype.doEpidemy = function doEpidemy() {
-		this.increasePropagationForce();
-		this.shuffleDiscard();
-		this.addDiscardToDeck();
-	};
-
 	PropagationDeck.prototype.shuffleDiscard = function shuffleDiscard() {
 		this.shuffle(this.arrayDiscard);
 	};
@@ -518,11 +564,14 @@ var PropagationDeck = (function (_Deck) {
 		console.log('défausse ajoutée à la pioche');
 	};
 
+	PropagationDeck.prototype.increasePropagationForce = function increasePropagationForce() {
+		this.propagationForceLevel++;
+	};
+
 	return PropagationDeck;
 })(_Deck2.Deck);
 
 exports.PropagationDeck = PropagationDeck;
-/*players, nbEpidemies,*/
 
 },{"./Deck":4,"./Player":6}],9:[function(require,module,exports){
 'use strict';
@@ -594,6 +643,14 @@ var Role = (function () {
         return this.color;
     };
 
+    Role.getArrayAllRoles = function getArrayAllRoles() {
+        var res = [];
+        $.each(roles, function () {
+            res.push(this.name);
+        });
+        return res;
+    };
+
     return Role;
 })();
 
@@ -619,8 +676,6 @@ var cities = require('../Cities.json');
 //////      Initialisation de la partie     //////
 //////////////////////////////////////////////////
 $(function () {
-
-	//$('#mapToShow').show();
 
 	//on submit => on crée une partie
 	//get nb joueur
@@ -648,6 +703,7 @@ $(function () {
 
 	//Lancement de la partie
 	$('#btn-start-game').on('click', function () {
+		$('#mapToShow').show();
 		console.log('Lancer une nouvelle partie.');
 	});
 

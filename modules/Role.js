@@ -60,6 +60,14 @@ class Role {
     getColor(){
         return this.color;
     }
+    
+    static getArrayAllRoles(){
+        var res = [];
+        $.each(roles, function(){
+            res.push(this.name);
+        });
+        return res;
+    }
 }
 
 export { Role }

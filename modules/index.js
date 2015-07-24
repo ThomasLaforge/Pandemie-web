@@ -12,7 +12,6 @@ import {Game} from './Game';
 //////////////////////////////////////////////////
 $(function(){
 	
-	//$('#mapToShow').show();
 	
 	//on submit => on crée une partie
 	//get nb joueur
@@ -40,6 +39,7 @@ $(function(){
 	
 	//Lancement de la partie
 	$('#btn-start-game').on('click', function(){
+		$('#mapToShow').show();
 		console.log('Lancer une nouvelle partie.');
 	});
 	

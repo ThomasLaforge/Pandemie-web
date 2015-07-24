@@ -2,7 +2,7 @@ import {Deck} from './Deck';
 import {Player} from './Player';
 
 class PlayerDeck extends Deck{
-	constructor(/*players, nbEpidemies, */){
+	constructor(lvl/*, nbPlayer*/){
 		super();
 	}
 	

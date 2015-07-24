@@ -4,7 +4,7 @@ import {Card} from './Card';
 
 class Deck {
     //Constructor   : arrayDeck with all cards, shuffle him, and create a discard array
-    //removeCard    : remove a card from the deck
+    //removeCard    : remove a card from the rest of the game
     //shuffle       : shuffle an in deck
     //shuffleDeck   : shuffle the arrayDeck
     //length        : give the length of the deck

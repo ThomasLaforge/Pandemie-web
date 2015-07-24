@@ -1,20 +1,43 @@
 import {Card} from './Card';
 import {Deck} from './Deck';
+import {Role} from './Role';
+import {Hand} from './Hand';
 
 class Player {
     constructor(name, roleName) {
         this._name = name;
 		this._role = new Role(roleName);
+		this._hand = new(Hand);
     }
-    removeCard(card) {
-        var pos = this.arrayDeck.indexOf(Card);
-		if(pos > -1){
-			this.arrayDeck.splice(pos, 1);
+    
+	//Piocher des cartes
+	takeCard(card){
+		this._hand.addCard(card);
+	}
+	takeCards(arrayOfCards){
+		for (var i = 0; i < arrayOfCards.length; i++) {
+			this.takeCard(arrayOfCards[i]);			
 		}
-		else{
-			console.log('Tentative de suppression d\'une carte qui n\'est pas présente dans la main');
-		}
+	}
+	
+	
+	useCard(card){
+		this._hand.removeCard(card);
     }
+	discard(card){
+		this._hand.removeCard(card);		
+	}
+	doRemede(arrayOfCards){
+		for (var i = 0; i < arrayOfCards.length; i++) {
+			this.useCard(arrayOfCards[i]);			
+		}
+	}
+	
+	/////////////////////////////// Statics methods /////////////////////////////////
+	
+	static getArrayAllNames(){
+		return ['Thomas', 'Willy', 'Julie', 'Kev', 'Ludo', 'Greg', 'Camille', 'Alex', 'Alexandra', 'Morgane', 'Fabrice', 'Valerie', 'Olivier'];
+	}
 }
 
 export {Player}
