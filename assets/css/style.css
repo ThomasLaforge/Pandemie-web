@@ -1,3 +1,19 @@
-#map{
-	background-image: "assets/img/pandemicMap.jpg";
+html{
+	/*background-color: black;*/
+}
+
+body{
+	width:1280px;
+	margin:auto;
+	/*background-color: #093d79;*/
+}
+
+area{
+	border: 1px solid red;
+	z-index: 0;
+}
+
+#mapToShow{
+	display:none;
+	text-align: center;
 }
