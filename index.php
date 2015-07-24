@@ -2,12 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Jeux2cartes - Index</title>
+    <title>Pandemie - Index</title>
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
   <body>
     <header>
-      <h1>Jeux2cartes</h1>
+      <h1>Pandemie</h1>
       <p>
         Cette petite application va me permettre de réaliser un laboratoire
         pour tester ma propre librairie de gestion de jeu de carte en javascript
@@ -46,10 +46,14 @@
       <div class="console" id="console"></div>
     </div>
     
-    <div class="imgmap_css_container" id="imgmap2015722164425">
-      <a style="position: absolute; top: 250px; left: 187px; width: 36px; height: 30px;"  alt="" title="" href="" target="" ><em></em></a>
-      <a style="position: absolute; top: 312px; left: 220px; width: 30px; height: 29px;"  alt="Atlanta" title="Atlanta" href="" target="" ><em></em></a>
+    <div id="mapToShow">
+      <img usemap="#ImgRefMap" src="assets/img/pandemicMap.jpg" /> 
+      <map id="ImgRefMap" name="ImgRefMap">
+        <area shape="rect" alt="" title="" coords="401,87,552,182" target="" />
+        <area shape="rect" alt="" title="" coords="216,196,298,266" target="" />
+      </map>
     </div>
+    
     <!-- Scripts javascript  -->
     <script src="dist/module.js" charset="utf-8"></script>
   </body>

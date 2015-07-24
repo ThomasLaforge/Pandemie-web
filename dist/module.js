@@ -619,6 +619,9 @@ var cities = require('../Cities.json');
 //////      Initialisation de la partie     //////
 //////////////////////////////////////////////////
 $(function () {
+
+	//$('#mapToShow').show();
+
 	//on submit => on crée une partie
 	//get nb joueur
 	var nbPlayer = getActualNbPlayer();
@@ -646,6 +649,11 @@ $(function () {
 	//Lancement de la partie
 	$('#btn-start-game').on('click', function () {
 		console.log('Lancer une nouvelle partie.');
+	});
+
+	//area touch
+	$('area').on('click', function () {
+		console.log('Action sur carte.');
 	});
 
 	function startGame() {
