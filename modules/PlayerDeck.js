@@ -11,6 +11,10 @@ class PlayerDeck extends Deck{
 		this.removeCard(Card);
 	}
 	
+	pickTurnCards(){
+		return this.pickCards(2);
+	}
+	
 }
 
 export { PlayerDeck };

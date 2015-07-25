@@ -8,12 +8,15 @@
   <body>
     <header>
       <h1>Pandemie</h1>
+      
       <p>
         Cette petite application va me permettre de réaliser un laboratoire
         pour tester ma propre librairie de gestion de jeu de carte en javascript
         avec la norme ECMAScript 6.
       </p>
-      
+    
+    </header>
+    <div id="configZone">  
       <h2>Configurer votre partie:</h2>
       <!-- Formulaire de création de partie -->
       <form onsubmit="return false;">
@@ -37,8 +40,8 @@
         <br>
         <input id="btn-start-game" type="submit" value="Lancer la partie">
       </form>
-    </header>
-
+    </div>
+    
     <div class="board">
       <div class="deck" id="deck"></div>
       <div class="defausse" id="defausse"></div>

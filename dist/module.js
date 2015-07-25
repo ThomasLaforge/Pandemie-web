@@ -296,7 +296,7 @@ var Card = (function () {
 
 exports.Card = Card;
 
-},{"../Cities.json":1,"Jquery":11}],4:[function(require,module,exports){
+},{"../Cities.json":1,"Jquery":12}],4:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -324,7 +324,7 @@ var Deck = (function () {
             array.push(new _Card.Card(this.name));
         });
         this.arrayDeck = array;
-        this.shuffle(this.arrayDeck);
+        this.shuffleDeck();
         this.arrayDiscard = [];
     }
 
@@ -384,7 +384,7 @@ var Deck = (function () {
 
 exports.Deck = Deck;
 
-},{"../Cities.json":1,"./Card":3,"Jquery":11}],5:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"Jquery":12}],5:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -411,14 +411,19 @@ var Game = (function () {
 		this.addPlayers(nbPlayer);
 	}
 
+	Game.prototype.init = function init() {
+		this.giveCardsToAllPlayers();
+	};
+
 	Game.prototype.showPlayers = function showPlayers() {};
 
 	Game.prototype.getRandomNewName = function getRandomNewName() {
 		//Get all possible names		
 		var arrayNames = _Player.Player.getArrayAllNames();
 		//Difference between all names and used names
+		var arrayPlayerNames = this.getArrayPlayerNames();
 		arrayNames.filter(function (i) {
-			return this.getArrayPlayerNames.indexOf(i) < 0;
+			return arrayPlayerNames.indexOf(i) < 0;
 		});
 
 		//return a random name from the free names		
@@ -429,12 +434,29 @@ var Game = (function () {
 		//Get all possible roles
 		var arrayRoles = _Role.Role.getArrayAllRoles();
 		//Difference between all roles and used roles
+		var arrayPlayerRoles = this.getArrayPlayerRoles();
 		arrayRoles.filter(function (i) {
-			return this.getArrayPlayerNames.indexOf(i) < 0;
+			return arrayPlayerRoles.indexOf(i) < 0;
 		});
 
 		//return a random roles from the free roles
 		return arrayRoles[Math.floor(Math.random() * arrayRoles.length)];
+	};
+
+	Game.prototype.getArrayPlayerNames = function getArrayPlayerNames() {
+		var res = [];
+		for (var i = 0; i < this.arrayPlayers.length; i++) {
+			res.push(this.arrayPlayers[i].getName());
+		}
+		return res;
+	};
+
+	Game.prototype.getArrayPlayerRoles = function getArrayPlayerRoles() {
+		var res = [];
+		for (var i = 0; i < this.arrayPlayers.length; i++) {
+			res.push(this.arrayPlayers[i].getRole());
+		}
+		return res;
 	};
 
 	//Ajouter un ou des joueurs
@@ -450,6 +472,29 @@ var Game = (function () {
 		}
 	};
 
+	Game.prototype.giveCardsToAllPlayers = function giveCardsToAllPlayers() {
+		var nbCardsToGive;
+		switch (this.nbPlayer) {
+			case 2:
+				nbCardsToGive = 4;break;
+			case 3:
+				nbCardsToGive = 3;break;
+			case 4:
+				nbCardsToGive = 2;break;
+			case 5:
+				nbCardsToGive = 2;break;
+			default:
+				nbCardsToGive = 2;break;
+		}
+
+		for (var i = 0; i < this.arrayPlayers.length; i++) {
+			var arrayCard = this.playerDeck.pickCards(nbCardsToGive);
+			this.arrayPlayers[i].takeCards(arrayCard);
+		}
+	};
+
+	Game.prototype.giveCards = function giveCards(nbCards, player) {};
+
 	Game.prototype.doEpidemy = function doEpidemy() {
 		this.propagationDeck.increasePropagationForce();
 		this.propagationDeck.shuffleDiscard();
@@ -461,7 +506,46 @@ var Game = (function () {
 
 exports.Game = Game;
 
-},{"./Player":6,"./PlayerDeck":7,"./PropagationDeck":8,"./Role":9}],6:[function(require,module,exports){
+},{"./Player":7,"./PlayerDeck":8,"./PropagationDeck":9,"./Role":10}],6:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _Card = require('./Card');
+
+var Hand = (function () {
+	function Hand() {
+		_classCallCheck(this, Hand);
+
+		this.arrayCard = [];
+	}
+
+	Hand.prototype.addCard = function addCard(Card) {
+		if (Deck.cardIn(Card) && this.arrayCard.length <= 7) {
+			Deck['delete'](Card);
+			this.arrayCard.push(Card);
+		} else {
+			console.log('Tentative d\'ajout de carte du deck dans la main mais la carte n\'existe pas');
+		}
+	};
+
+	Hand.prototype.removeCard = function removeCard(Card) {
+		var pos = this.arrayCard.indexOf(Card);
+		if (pos > -1) {
+			this.arrayCard.splice(pos, 1);
+		} else {
+			console.log('Tentative de suppression d\'une carte qui n\'est pas présente dans la main');
+		}
+	};
+
+	return Hand;
+})();
+
+exports.Hand = Hand;
+
+},{"./Card":3}],7:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -472,22 +556,54 @@ var _Card = require('./Card');
 
 var _Deck = require('./Deck');
 
+var _Role = require('./Role');
+
+var _Hand = require('./Hand');
+
 var Player = (function () {
 	function Player(name, roleName) {
 		_classCallCheck(this, Player);
 
 		this._name = name;
-		this._role = new Role(roleName);
+		this._role = new _Role.Role(roleName);
+		this._hand = new _Hand.Hand();
 	}
 
-	Player.prototype.removeCard = function removeCard(card) {
-		var pos = this.arrayDeck.indexOf(_Card.Card);
-		if (pos > -1) {
-			this.arrayDeck.splice(pos, 1);
-		} else {
-			console.log('Tentative de suppression d\'une carte qui n\'est pas présente dans la main');
+	//Piocher des cartes
+
+	Player.prototype.takeCard = function takeCard(card) {
+		this._hand.addCard(card);
+	};
+
+	Player.prototype.takeCards = function takeCards(arrayOfCards) {
+		for (var i = 0; i < arrayOfCards.length; i++) {
+			this.takeCard(arrayOfCards[i]);
 		}
 	};
+
+	Player.prototype.useCard = function useCard(card) {
+		this._hand.removeCard(card);
+	};
+
+	Player.prototype.discard = function discard(card) {
+		this._hand.removeCard(card);
+	};
+
+	Player.prototype.doRemede = function doRemede(arrayOfCards) {
+		for (var i = 0; i < arrayOfCards.length; i++) {
+			this.useCard(arrayOfCards[i]);
+		}
+	};
+
+	Player.prototype.getRole = function getRole() {
+		return this._role;
+	};
+
+	Player.prototype.getName = function getName() {
+		return this._name;
+	};
+
+	/////////////////////////////// Statics methods /////////////////////////////////
 
 	Player.getArrayAllNames = function getArrayAllNames() {
 		return ['Thomas', 'Willy', 'Julie', 'Kev', 'Ludo', 'Greg', 'Camille', 'Alex', 'Alexandra', 'Morgane', 'Fabrice', 'Valerie', 'Olivier'];
@@ -498,7 +614,7 @@ var Player = (function () {
 
 exports.Player = Player;
 
-},{"./Card":3,"./Deck":4}],7:[function(require,module,exports){
+},{"./Card":3,"./Deck":4,"./Hand":6,"./Role":10}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -525,12 +641,16 @@ var PlayerDeck = (function (_Deck) {
 		this.removeCard(Card);
 	};
 
+	PlayerDeck.prototype.pickTurnCards = function pickTurnCards() {
+		return this.pickCards(2);
+	};
+
 	return PlayerDeck;
 })(_Deck2.Deck);
 
 exports.PlayerDeck = PlayerDeck;
 
-},{"./Deck":4,"./Player":6}],8:[function(require,module,exports){
+},{"./Deck":4,"./Player":7}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -573,7 +693,7 @@ var PropagationDeck = (function (_Deck) {
 
 exports.PropagationDeck = PropagationDeck;
 
-},{"./Deck":4,"./Player":6}],9:[function(require,module,exports){
+},{"./Deck":4,"./Player":7}],10:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -656,7 +776,7 @@ var Role = (function () {
 
 exports.Role = Role;
 
-},{"../Roles.json":2,"Jquery":11}],10:[function(require,module,exports){
+},{"../Roles.json":2,"Jquery":12}],11:[function(require,module,exports){
 'use strict';
 
 var _PropagationDeck = require('./PropagationDeck');
@@ -683,7 +803,6 @@ $(function () {
 	var difficulty = getActualLvl();
 	console.log(nbPlayer);
 	console.log(difficulty);
-	var myGame = new _Game.Game(nbPlayer, difficulty);
 
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -703,7 +822,10 @@ $(function () {
 
 	//Lancement de la partie
 	$('#btn-start-game').on('click', function () {
+		$('#configZone').hide();
 		$('#mapToShow').show();
+		var myGame = new _Game.Game(getActualNbPlayer(), getActualLvl());
+		myGame.init();
 		console.log('Lancer une nouvelle partie.');
 	});
 
@@ -711,10 +833,6 @@ $(function () {
 	$('area').on('click', function () {
 		console.log('Action sur carte.');
 	});
-
-	function startGame() {
-		return false;
-	};
 });
 
 function getActualLvl() {
@@ -725,7 +843,7 @@ function getActualNbPlayer() {
 	return $('input[type=radio][name=nb_player]').val();
 }
 
-},{"../Cities.json":1,"./Card":3,"./Game":5,"./PlayerDeck":7,"./PropagationDeck":8,"./Role":9,"Jquery":11}],11:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"./Game":5,"./PlayerDeck":8,"./PropagationDeck":9,"./Role":10,"Jquery":12}],12:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -9937,4 +10055,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[10]);
+},{}]},{},[11]);

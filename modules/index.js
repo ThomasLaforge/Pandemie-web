@@ -19,8 +19,7 @@ $(function(){
 	var difficulty = getActualLvl();
 	console.log(nbPlayer);
 	console.log(difficulty);
-	var myGame = new Game(nbPlayer, difficulty);
-	
+		
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
 	////////////////////////////////////////////////
@@ -39,7 +38,10 @@ $(function(){
 	
 	//Lancement de la partie
 	$('#btn-start-game').on('click', function(){
+		$('#configZone').hide();
 		$('#mapToShow').show();
+		var myGame = new Game(getActualNbPlayer(), getActualLvl());
+		myGame.init();
 		console.log('Lancer une nouvelle partie.');
 	});
 	
@@ -47,10 +49,6 @@ $(function(){
 	$('area').on('click', function(){
 		console.log('Action sur carte.');
 	});
-	
-	function startGame(){
-		return false;
-	};
 
 });
 

@@ -20,7 +20,6 @@ class Player {
 		}
 	}
 	
-	
 	useCard(card){
 		this._hand.removeCard(card);
     }
@@ -31,6 +30,14 @@ class Player {
 		for (var i = 0; i < arrayOfCards.length; i++) {
 			this.useCard(arrayOfCards[i]);			
 		}
+	}
+	
+	getRole(){
+		return this._role;
+	}
+	
+	getName(){
+		return this._name;
 	}
 	
 	/////////////////////////////// Statics methods /////////////////////////////////

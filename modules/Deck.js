@@ -16,7 +16,7 @@ class Deck {
             array.push(new Card(this.name));
         });
         this.arrayDeck = array;
-        this.shuffle(this.arrayDeck);
+        this.shuffleDeck();
         this.arrayDiscard = [];
     }
     
