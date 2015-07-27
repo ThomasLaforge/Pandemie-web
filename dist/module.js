@@ -296,7 +296,7 @@ var Card = (function () {
 
 exports.Card = Card;
 
-},{"../Cities.json":1,"Jquery":12}],4:[function(require,module,exports){
+},{"../Cities.json":1,"Jquery":13}],4:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -384,7 +384,7 @@ var Deck = (function () {
 
 exports.Deck = Deck;
 
-},{"../Cities.json":1,"./Card":3,"Jquery":12}],5:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"Jquery":13}],5:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -398,6 +398,8 @@ var _Role = require('./Role');
 var _PlayerDeck = require('./PlayerDeck');
 
 var _PropagationDeck = require('./PropagationDeck');
+
+var _Map = require('./Map');
 
 var Game = (function () {
 	function Game(nbPlayer, difficulty) {
@@ -496,9 +498,20 @@ var Game = (function () {
 	Game.prototype.giveCards = function giveCards(nbCards, player) {};
 
 	Game.prototype.doEpidemy = function doEpidemy() {
-		this.propagationDeck.increasePropagationForce();
+		//Pick the last card of propagation deck
+		var LastCard = this.propagationDeck.getLastCard();
+		//Add 3 cubes if no cubes in this city
+
+		//Or put 3 cubes and do eclosion
+
+		//Discard this card
+		this.propagationDeck.discard(LastCard);
+		//Shuffle the discard
 		this.propagationDeck.shuffleDiscard();
+		//And add the discard to the top of the deck
 		this.propagationDeck.addDiscardToDeck();
+		//Finally increase the propagation lvl
+		this.propagationDeck.increasePropagationForce();
 	};
 
 	return Game;
@@ -506,7 +519,7 @@ var Game = (function () {
 
 exports.Game = Game;
 
-},{"./Player":7,"./PlayerDeck":8,"./PropagationDeck":9,"./Role":10}],6:[function(require,module,exports){
+},{"./Map":7,"./Player":8,"./PlayerDeck":9,"./PropagationDeck":10,"./Role":11}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -514,6 +527,8 @@ exports.__esModule = true;
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _Card = require('./Card');
+
+var _Deck = require('./Deck');
 
 var Hand = (function () {
 	function Hand() {
@@ -523,8 +538,8 @@ var Hand = (function () {
 	}
 
 	Hand.prototype.addCard = function addCard(Card) {
-		if (Deck.cardIn(Card) && this.arrayCard.length <= 7) {
-			Deck['delete'](Card);
+		if (_Deck.Deck.cardIn(Card) && this.arrayCard.length <= 7) {
+			_Deck.Deck['delete'](Card);
 			this.arrayCard.push(Card);
 		} else {
 			console.log('Tentative d\'ajout de carte du deck dans la main mais la carte n\'existe pas');
@@ -545,7 +560,40 @@ var Hand = (function () {
 
 exports.Hand = Hand;
 
-},{"./Card":3}],7:[function(require,module,exports){
+},{"./Card":3,"./Deck":4}],7:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _Card = require('./Card');
+
+var $ = require('Jquery');
+var cities = require('../Cities.json');
+
+var Map = (function () {
+	function Map(idMap) {
+		_classCallCheck(this, Map);
+
+		//idMap = '#idMap'
+		this._divId = idMap;
+	}
+
+	Map.prototype.addCubes = function addCubes(nbCubes, cityName) {};
+
+	Map.prototype.getNbCubes = function getNbCubes(cityName) {};
+
+	return Map;
+})();
+
+exports.Map = Map;
+
+//$(this._divId + ' ').attr(nbCubes) ++;
+
+//return $(this._divId + ' ').attr(nbCubes);
+
+},{"../Cities.json":1,"./Card":3,"Jquery":13}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -614,7 +662,7 @@ var Player = (function () {
 
 exports.Player = Player;
 
-},{"./Card":3,"./Deck":4,"./Hand":6,"./Role":10}],8:[function(require,module,exports){
+},{"./Card":3,"./Deck":4,"./Hand":6,"./Role":11}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -626,6 +674,13 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _Deck2 = require('./Deck');
 
 var _Player = require('./Player');
+
+//Constructor   : arrayDeck with all cards, shuffle him, and create a discard array
+//removeCard    : remove a card from the rest of the game
+//shuffle       : shuffle an in deck
+//shuffleDeck   : shuffle the arrayDeck
+//length        : give the length of the deck
+//pickCards     : return an array with the firts cards of the deck.
 
 var PlayerDeck = (function (_Deck) {
 	function PlayerDeck(lvl /*, nbPlayer*/) {
@@ -636,11 +691,6 @@ var PlayerDeck = (function (_Deck) {
 
 	_inherits(PlayerDeck, _Deck);
 
-	PlayerDeck.prototype.getCard = function getCard(Player, Card) {
-		Player.pickCard(Card);
-		this.removeCard(Card);
-	};
-
 	PlayerDeck.prototype.pickTurnCards = function pickTurnCards() {
 		return this.pickCards(2);
 	};
@@ -650,7 +700,7 @@ var PlayerDeck = (function (_Deck) {
 
 exports.PlayerDeck = PlayerDeck;
 
-},{"./Deck":4,"./Player":7}],9:[function(require,module,exports){
+},{"./Deck":4,"./Player":8}],10:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -662,6 +712,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 var _Deck2 = require('./Deck');
 
 var _Player = require('./Player');
+
+//Constructor   : arrayDeck with all cards, shuffle him, and create a discard array
+//removeCard    : remove a card from the rest of the game
+//shuffle       : shuffle an in deck
+//shuffleDeck   : shuffle the arrayDeck
+//length        : give the length of the deck
+//pickCards     : return an array with the firts cards of the deck.
+//discard		: add an array of cards to the discard
 
 var array_propagationForce = [2, 2, 2, 3, 3, 3, 4, 4];
 
@@ -688,12 +746,16 @@ var PropagationDeck = (function (_Deck) {
 		this.propagationForceLevel++;
 	};
 
+	PropagationDeck.prototype.getLastCard = function getLastCard() {
+		return this.arrayDeck[this.arrayDeck.length - 1];
+	};
+
 	return PropagationDeck;
 })(_Deck2.Deck);
 
 exports.PropagationDeck = PropagationDeck;
 
-},{"./Deck":4,"./Player":7}],10:[function(require,module,exports){
+},{"./Deck":4,"./Player":8}],11:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -776,7 +838,7 @@ var Role = (function () {
 
 exports.Role = Role;
 
-},{"../Roles.json":2,"Jquery":12}],11:[function(require,module,exports){
+},{"../Roles.json":2,"Jquery":13}],12:[function(require,module,exports){
 'use strict';
 
 var _PropagationDeck = require('./PropagationDeck');
@@ -843,7 +905,7 @@ function getActualNbPlayer() {
 	return $('input[type=radio][name=nb_player]').val();
 }
 
-},{"../Cities.json":1,"./Card":3,"./Game":5,"./PlayerDeck":8,"./PropagationDeck":9,"./Role":10,"Jquery":12}],12:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"./Game":5,"./PlayerDeck":9,"./PropagationDeck":10,"./Role":11,"Jquery":13}],13:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -10055,4 +10117,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[11]);
+},{}]},{},[12]);

@@ -1,7 +1,8 @@
-import {Player} from './Player';
-import {Role} from './Role';
-import {PlayerDeck} from './PlayerDeck';
-import {PropagationDeck} from './PropagationDeck';
+import {Player} 		from './Player';
+import {Role} 			from './Role';
+import {PlayerDeck} 	from './PlayerDeck';
+import {PropagationDeck}from './PropagationDeck';
+import {Map} 			from './Map';
 
 class Game {
 	constructor(nbPlayer, difficulty){
@@ -78,7 +79,7 @@ class Game {
 			case 4: nbCardsToGive = 2;	break;
 			case 5: nbCardsToGive = 2;	break;
 			default:nbCardsToGive = 2;	break;
-		}	
+		}
 		
 		for (var i = 0; i < this.arrayPlayers.length; i++) {
 			var arrayCard = this.playerDeck.pickCards(nbCardsToGive);
@@ -91,10 +92,23 @@ class Game {
 	}
 	
 	doEpidemy(){
-		this.propagationDeck.increasePropagationForce();
+		//Pick the last card of propagation deck
+		var LastCard = this.propagationDeck.getLastCard();
+		//Add 3 cubes if no cubes in this city
+		
+		//Or put 3 cubes and do eclosion
+		
+		//Discard this card
+		this.propagationDeck.discard(LastCard);
+		//Shuffle the discard
 		this.propagationDeck.shuffleDiscard();
+		//And add the discard to the top of the deck
 		this.propagationDeck.addDiscardToDeck();
+		//Finally increase the propagation lvl
+		this.propagationDeck.increasePropagationForce();
 	}
+	
+	
 } 
 
 export { Game };

@@ -1,4 +1,5 @@
 import {Card} from './Card';
+import {Deck} from './Deck';
 
 class Hand {
 	constructor(){
