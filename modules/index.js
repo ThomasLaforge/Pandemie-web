@@ -6,20 +6,18 @@ import {PlayerDeck} from './PlayerDeck';
 import {Card} from './Card';
 import {Role} from './Role';
 import {Game} from './Game';
+import {Map} from './Map';
 
 //////////////////////////////////////////////////
 //////      Initialisation de la partie     //////
 //////////////////////////////////////////////////
 $(function(){
-	
-	
-	//on submit => on crée une partie
-	//get nb joueur
-	var nbPlayer = getActualNbPlayer();
-	var difficulty = getActualLvl();
-	console.log(nbPlayer);
-	console.log(difficulty);
 		
+	var myMap = new Map();
+	console.log(myMap.addCubes(1,'New York'));
+	console.log(myMap.addCubes(3,'New York'));
+	console.log(myMap.getNbCubes('New York'));
+	
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
 	////////////////////////////////////////////////
@@ -27,13 +25,11 @@ $(function(){
 	// Changement du nombre de joueurs
 	$('input[type=radio][name=nb_player]').on('change', function(){
 		console.log('Le nombre de joueur vient de changer. Il y a actuellement ' + $(this).val() + ' joueurs.');
-		nbPlayer =  $(this).val();
 	});
 	
 	// Changement du niveau de la partie
 	$('input[type=radio][name=game_lvl]').on('change', function(){
 		console.log('La difficulté vient de changer : ' + $(this).val() + ' épidémies.');
-		difficulty = $(this).val(); 
 	});
 	
 	//Lancement de la partie

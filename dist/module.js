@@ -572,26 +572,54 @@ var _Card = require('./Card');
 var $ = require('Jquery');
 var cities = require('../Cities.json');
 
+//Map permit to have informations about cubes on the map.
+
 var Map = (function () {
-	function Map(idMap) {
+	function Map() {
 		_classCallCheck(this, Map);
 
 		//idMap = '#idMap'
-		this._divId = idMap;
+		this.arrayMap = {};
 	}
 
-	Map.prototype.addCubes = function addCubes(nbCubes, cityName) {};
+	Map.prototype.addCubes = function addCubes(nbCubes, cityName) {
+		//return true if all ok but false if have to do an epidemy because of more than 3 cubes to put on a city.
+		// Controle de nbCubes
+		if (nbCubes > 3) {
+			nbCubes = 3;
+		} else {
+			if (nbCubes < 0) {
+				nbCubes = 0;
+			}
+		}
 
-	Map.prototype.getNbCubes = function getNbCubes(cityName) {};
+		// //On récupère le nombre actuel de cube sur cette ville
+		var nbActualCubes = this.getNbCubes(cityName);
+		//Si la ville est déjà présente dans la map
+		if (nbActualCubes) {
+			if (nbActualCubes + nbCubes > 3) {
+				this.arrayMap[cityName] = 3;
+				return false;
+			} else {
+				this.arrayMap[cityName] += nbCubes;
+			}
+		}
+		//Sinon on ajoute le nombre de cubes au
+		else {
+			this.arrayMap[cityName] = nbCubes;
+		}
+
+		return true;
+	};
+
+	Map.prototype.getNbCubes = function getNbCubes(cityName) {
+		return this.arrayMap[cityName];
+	};
 
 	return Map;
 })();
 
 exports.Map = Map;
-
-//$(this._divId + ' ').attr(nbCubes) ++;
-
-//return $(this._divId + ' ').attr(nbCubes);
 
 },{"../Cities.json":1,"./Card":3,"Jquery":13}],8:[function(require,module,exports){
 'use strict';
@@ -851,6 +879,8 @@ var _Role = require('./Role');
 
 var _Game = require('./Game');
 
+var _Map = require('./Map');
+
 var $ = require('Jquery');
 var cities = require('../Cities.json');
 
@@ -859,12 +889,10 @@ var cities = require('../Cities.json');
 //////////////////////////////////////////////////
 $(function () {
 
-	//on submit => on crée une partie
-	//get nb joueur
-	var nbPlayer = getActualNbPlayer();
-	var difficulty = getActualLvl();
-	console.log(nbPlayer);
-	console.log(difficulty);
+	var myMap = new _Map.Map();
+	console.log(myMap.addCubes(1, 'New York'));
+	console.log(myMap.addCubes(3, 'New York'));
+	console.log(myMap.getNbCubes('New York'));
 
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -873,13 +901,11 @@ $(function () {
 	// Changement du nombre de joueurs
 	$('input[type=radio][name=nb_player]').on('change', function () {
 		console.log('Le nombre de joueur vient de changer. Il y a actuellement ' + $(this).val() + ' joueurs.');
-		nbPlayer = $(this).val();
 	});
 
 	// Changement du niveau de la partie
 	$('input[type=radio][name=game_lvl]').on('change', function () {
 		console.log('La difficulté vient de changer : ' + $(this).val() + ' épidémies.');
-		difficulty = $(this).val();
 	});
 
 	//Lancement de la partie
@@ -905,7 +931,7 @@ function getActualNbPlayer() {
 	return $('input[type=radio][name=nb_player]').val();
 }
 
-},{"../Cities.json":1,"./Card":3,"./Game":5,"./PlayerDeck":9,"./PropagationDeck":10,"./Role":11,"Jquery":13}],13:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":3,"./Game":5,"./Map":7,"./PlayerDeck":9,"./PropagationDeck":10,"./Role":11,"Jquery":13}],13:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/

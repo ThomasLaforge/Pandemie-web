@@ -14,9 +14,11 @@ class Card {
         this.color = color; 
         this.links = links;
     }
+    
     getName() {
         return this.name;
     }
+    
 }
  
 export { Card };
