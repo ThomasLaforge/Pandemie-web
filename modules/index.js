@@ -4,6 +4,7 @@ var cities = require('../Cities.json');
 import {PropagationDeck} from './PropagationDeck';
 import {PlayerDeck} from './PlayerDeck';
 import {Card} from './Card';
+import {City} from './City';
 import {Role} from './Role';
 import {Game} from './Game';
 import {Map} from './Map';
@@ -12,11 +13,6 @@ import {Map} from './Map';
 //////      Initialisation de la partie     //////
 //////////////////////////////////////////////////
 $(function(){
-		
-	var myMap = new Map();
-	console.log(myMap.addCubes(1,'New York'));
-	console.log(myMap.addCubes(3,'New York'));
-	console.log(myMap.getNbCubes('New York'));
 	
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////

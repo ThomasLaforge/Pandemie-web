@@ -69,6 +69,7 @@ class Deck {
             this.discard.push(this); 
         });
     }
+    
 }
  
 export { Deck };

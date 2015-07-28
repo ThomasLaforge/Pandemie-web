@@ -1,24 +1,33 @@
 var $ = require('Jquery');
-var cities = require('../Cities.json');
+var events = require('../Events.json');
+import {City} from './City';
+
+// name : string, type : enum(city, event, nothing)
 
 class Card {
-    constructor(city_name) {
-        var color,links;
-        $.each(cities,function(){
-	       if(this.name == city_name){
-               color = this.color;
-               links = this.links;
+    constructor(cardName) {
+        //Type
+        if(City.cityExist(cardName)){
+            this.type = 'city';
+        }
+        else if(this.isEvent(cardName)){
+            this.type = 'event';
+        }
+        else{
+            this.type = 'nothing';
+        }
+    }
+    
+    isEvent(cardName){
+        var i = 0;
+        $.each(events,function(){
+	       if(this.name == cardName){
+               return false;
            }
+           i++;
         });
-        this.name = city_name;
-        this.color = color; 
-        this.links = links;
+        return i < events.length;
     }
-    
-    getName() {
-        return this.name;
-    }
-    
 }
  
 export { Card };

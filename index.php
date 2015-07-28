@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="assets/css/style.css">
   </head>
   <body>
-    <header>
+    <!--<header>
       <h1>Pandemie</h1>
       
       <p>
@@ -15,7 +15,7 @@
         avec la norme ECMAScript 6.
       </p>
     
-    </header>
+    </header>-->
     <div id="configZone">  
       <h2>Configurer votre partie:</h2>
       <!-- Formulaire de création de partie -->

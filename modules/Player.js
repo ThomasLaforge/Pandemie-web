@@ -1,4 +1,5 @@
 import {Card} from './Card';
+import {City} from './City';
 import {Deck} from './Deck';
 import {Role} from './Role';
 import {Hand} from './Hand';
@@ -8,6 +9,7 @@ class Player {
         this._name = name;
 		this._role = new Role(roleName);
 		this._hand = new(Hand);
+		this._position = new City("Atlanta");
     }
     
 	//Piocher des cartes
@@ -20,6 +22,7 @@ class Player {
 		}
 	}
 	
+	//Utiliser des cartes
 	useCard(card){
 		this._hand.removeCard(card);
     }
@@ -32,12 +35,24 @@ class Player {
 		}
 	}
 	
+	//Déplacement
+	moveTo(newCity){
+		this._position = newCity;
+	}
+	
+	/////////////////////////////// Getters /////////////////////////////////
+	
 	getRole(){
 		return this._role;
 	}
-	
 	getName(){
 		return this._name;
+	}
+	getPosition(){
+		return this._position;
+	}
+	getHand(){
+		return this._hand;
 	}
 	
 	/////////////////////////////// Statics methods /////////////////////////////////

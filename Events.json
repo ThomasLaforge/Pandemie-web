@@ -1,0 +1,12 @@
+[
+	//Jeu de base
+	{
+		"name" :"Pont aerien",
+		"description" : "Vous gagnez immediatement la partie !"
+	},
+	//Extension
+	{
+		"name" :"Un autre evenement moins bien",
+		"description": "Vous allez en chier pour gagner la partie"
+	}
+]
