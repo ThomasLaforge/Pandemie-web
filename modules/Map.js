@@ -1,10 +1,12 @@
+import {COLORS, NB_RESEARCH_CENTRES, NB_TOTAL_CUBES_BY_COLOR} from '../configuration_file';
+
 var $ = require('Jquery');
 var cities = require('../Cities.json');
-var nbTotalResearchCentres = 6;
-var nbTotalRedCubes = 24;
-var nbTotalBlackCubes = 24;
-var nbTotalBlueCubes = 24;
-var nbTotalYellowCubes = 24;
+var nbTotalResearchCentres = NB_RESEARCH_CENTRES;
+var nbTotalRedCubes = NB_TOTAL_CUBES_BY_COLOR;
+var nbTotalBlackCubes = NB_TOTAL_CUBES_BY_COLOR;
+var nbTotalBlueCubes = NB_TOTAL_CUBES_BY_COLOR;
+var nbTotalYellowCubes = NB_TOTAL_CUBES_BY_COLOR;
 
 //Map permit to have informations about cubes and centers on the map.
 
@@ -12,12 +14,13 @@ class Map {
 	constructor(){ //idMap = '#idMap'
 		this._arrayCubes = {};
 		this._arrayResearchCentres = [];
+		console.log(COLORS);
 	}
 	
 	//Research Centres
 	addResearchCentre(cityName){
 		//Si il y a trop de centres sur le plateau on supprime le premier
-		if(this._arrayResearchCentres.length == nbTotalResearchCentres){
+		if(this._arrayResearchCentres.length == NB_RESEARCH_CENTRES){
 			this.removeFirstResearchCentre();
 		}
 		//On ajoute le centre
@@ -29,9 +32,9 @@ class Map {
 	}
 	
 	//Cubes
-	addCubes(nbCubes, cityName){ //return true if all ok but false if have to do an epidemy because of more than 3 cubes to put on a city.		
+	addCubes(nbCubes, cityName, color){ //return true if all ok but false if have to do an epidemy because of more than 3 cubes to put on a city.		
 		// //On récupère le nombre actuel de cube sur cette ville
-		var nbActualCubes = this.getNbCubes(cityName);
+		var nbActualCubes = this.getNbCubes(cityName, color);
 		//Si la ville est déjà présente dans la map
 		if(nbActualCubes){
 			if(nbActualCubes + nbCubes > 3 ){
@@ -50,22 +53,12 @@ class Map {
 		return true;
 	}
 	
-	removeCubes(nbCubes, cityName){ //To check
-		// Controle de nbCubes
-		if(nbCubes > 3){
-			nbCubes = 3;
-		}
-		else{
-			if(nbCubes < 0 ){
-				nbCubes = 0;
-			}
-		}
-		
+	removeCubes(nbCubes, cityName, color){
 		// //On récupère le nombre actuel de cube sur cette ville
 		var nbActualCubes = this.getNbCubes(cityName);
 		//Si la ville est déjà présente dans la map
 		if(nbActualCubes){
-			if(nbActualCubes + nbCubes < 0 ){
+			if(nbActualCubes - nbCubes < 0 ){
 				this._arrayCubes[cityName] = 0;
 				return false;
 			}
@@ -84,7 +77,7 @@ class Map {
 		
 	}
 	
-	getNbCubes(color){
+	getNbCubes(cityName, color){
 		
 	}
 	
@@ -93,7 +86,7 @@ class Map {
 	getAllCubes(){
 		return this._arrayCubes;
 	}
-	getNbCubes(cityName){
+	getCubes(cityName){
 		return this._arrayCubes[cityName];
 	}
 	

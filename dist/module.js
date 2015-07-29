@@ -278,6 +278,18 @@ module.exports=[
 'use strict';
 
 exports.__esModule = true;
+var COLORS = ['black', 'red', 'blue', 'yellow'];
+var NB_RESEARCH_CENTRES = 6;
+var NB_TOTAL_CUBES_BY_COLOR = 24;
+
+exports.COLORS = COLORS;
+exports.NB_RESEARCH_CENTRES = NB_RESEARCH_CENTRES;
+exports.NB_TOTAL_CUBES_BY_COLOR = NB_TOTAL_CUBES_BY_COLOR;
+
+},{}],5:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -318,7 +330,7 @@ var Card = (function () {
 
 exports.Card = Card;
 
-},{"../Events.json":2,"./City":5,"Jquery":15}],5:[function(require,module,exports){
+},{"../Events.json":2,"./City":6,"Jquery":16}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -383,7 +395,7 @@ var City = (function () {
 
 exports.City = City;
 
-},{"../Cities.json":1,"Jquery":15}],6:[function(require,module,exports){
+},{"../Cities.json":1,"Jquery":16}],7:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -471,7 +483,7 @@ var Deck = (function () {
 
 exports.Deck = Deck;
 
-},{"../Cities.json":1,"./Card":4,"Jquery":15}],7:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":5,"Jquery":16}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -606,7 +618,7 @@ var Game = (function () {
 
 exports.Game = Game;
 
-},{"./Map":9,"./Player":10,"./PlayerDeck":11,"./PropagationDeck":12,"./Role":13}],8:[function(require,module,exports){
+},{"./Map":10,"./Player":11,"./PlayerDeck":12,"./PropagationDeck":13,"./Role":14}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -647,20 +659,22 @@ var Hand = (function () {
 
 exports.Hand = Hand;
 
-},{"./Card":4,"./Deck":6}],9:[function(require,module,exports){
+},{"./Card":5,"./Deck":7}],10:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+var _configuration_file = require('../configuration_file');
+
 var $ = require('Jquery');
 var cities = require('../Cities.json');
-var nbTotalResearchCentres = 6;
-var nbTotalRedCubes = 24;
-var nbTotalBlackCubes = 24;
-var nbTotalBlueCubes = 24;
-var nbTotalYellowCubes = 24;
+var nbTotalResearchCentres = _configuration_file.NB_RESEARCH_CENTRES;
+var nbTotalRedCubes = _configuration_file.NB_TOTAL_CUBES_BY_COLOR;
+var nbTotalBlackCubes = _configuration_file.NB_TOTAL_CUBES_BY_COLOR;
+var nbTotalBlueCubes = _configuration_file.NB_TOTAL_CUBES_BY_COLOR;
+var nbTotalYellowCubes = _configuration_file.NB_TOTAL_CUBES_BY_COLOR;
 
 //Map permit to have informations about cubes and centers on the map.
 
@@ -671,13 +685,14 @@ var Map = (function () {
 		//idMap = '#idMap'
 		this._arrayCubes = {};
 		this._arrayResearchCentres = [];
+		console.log(_configuration_file.COLORS);
 	}
 
 	//Research Centres
 
 	Map.prototype.addResearchCentre = function addResearchCentre(cityName) {
 		//Si il y a trop de centres sur le plateau on supprime le premier
-		if (this._arrayResearchCentres.length == nbTotalResearchCentres) {
+		if (this._arrayResearchCentres.length == _configuration_file.NB_RESEARCH_CENTRES) {
 			this.removeFirstResearchCentre();
 		}
 		//On ajoute le centre
@@ -690,10 +705,10 @@ var Map = (function () {
 
 	//Cubes
 
-	Map.prototype.addCubes = function addCubes(nbCubes, cityName) {
+	Map.prototype.addCubes = function addCubes(nbCubes, cityName, color) {
 		//return true if all ok but false if have to do an epidemy because of more than 3 cubes to put on a city.		
 		// //On récupère le nombre actuel de cube sur cette ville
-		var nbActualCubes = this.getNbCubes(cityName);
+		var nbActualCubes = this.getNbCubes(cityName, color);
 		//Si la ville est déjà présente dans la map
 		if (nbActualCubes) {
 			if (nbActualCubes + nbCubes > 3) {
@@ -711,22 +726,12 @@ var Map = (function () {
 		return true;
 	};
 
-	Map.prototype.removeCubes = function removeCubes(nbCubes, cityName) {
-		//To check
-		// Controle de nbCubes
-		if (nbCubes > 3) {
-			nbCubes = 3;
-		} else {
-			if (nbCubes < 0) {
-				nbCubes = 0;
-			}
-		}
-
+	Map.prototype.removeCubes = function removeCubes(nbCubes, cityName, color) {
 		// //On récupère le nombre actuel de cube sur cette ville
 		var nbActualCubes = this.getNbCubes(cityName);
 		//Si la ville est déjà présente dans la map
 		if (nbActualCubes) {
-			if (nbActualCubes + nbCubes < 0) {
+			if (nbActualCubes - nbCubes < 0) {
 				this._arrayCubes[cityName] = 0;
 				return false;
 			} else {
@@ -741,7 +746,7 @@ var Map = (function () {
 
 	Map.prototype.getNbCubesByColor = function getNbCubesByColor() {};
 
-	Map.prototype.getNbCubes = function getNbCubes(color) {};
+	Map.prototype.getNbCubes = function getNbCubes(cityName, color) {};
 
 	/////////////////////////////// Getters /////////////////////////////////
 
@@ -749,7 +754,7 @@ var Map = (function () {
 		return this._arrayCubes;
 	};
 
-	Map.prototype.getNbCubes = function getNbCubes(cityName) {
+	Map.prototype.getCubes = function getCubes(cityName) {
 		return this._arrayCubes[cityName];
 	};
 
@@ -758,7 +763,7 @@ var Map = (function () {
 
 exports.Map = Map;
 
-},{"../Cities.json":1,"Jquery":15}],10:[function(require,module,exports){
+},{"../Cities.json":1,"../configuration_file":4,"Jquery":16}],11:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -848,7 +853,7 @@ var Player = (function () {
 
 exports.Player = Player;
 
-},{"./Card":4,"./City":5,"./Deck":6,"./Hand":8,"./Role":13}],11:[function(require,module,exports){
+},{"./Card":5,"./City":6,"./Deck":7,"./Hand":9,"./Role":14}],12:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -886,7 +891,7 @@ var PlayerDeck = (function (_Deck) {
 
 exports.PlayerDeck = PlayerDeck;
 
-},{"./Deck":6,"./Player":10}],12:[function(require,module,exports){
+},{"./Deck":7,"./Player":11}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -941,7 +946,7 @@ var PropagationDeck = (function (_Deck) {
 
 exports.PropagationDeck = PropagationDeck;
 
-},{"./Deck":6,"./Player":10}],13:[function(require,module,exports){
+},{"./Deck":7,"./Player":11}],14:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1024,7 +1029,7 @@ var Role = (function () {
 
 exports.Role = Role;
 
-},{"../Roles.json":3,"Jquery":15}],14:[function(require,module,exports){
+},{"../Roles.json":3,"Jquery":16}],15:[function(require,module,exports){
 'use strict';
 
 var _PropagationDeck = require('./PropagationDeck');
@@ -1048,6 +1053,8 @@ var cities = require('../Cities.json');
 //////      Initialisation de la partie     //////
 //////////////////////////////////////////////////
 $(function () {
+
+	var myMap = new _Map.Map();
 
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -1086,7 +1093,7 @@ function getActualNbPlayer() {
 	return $('input[type=radio][name=nb_player]').val();
 }
 
-},{"../Cities.json":1,"./Card":4,"./City":5,"./Game":7,"./Map":9,"./PlayerDeck":11,"./PropagationDeck":12,"./Role":13,"Jquery":15}],15:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":5,"./City":6,"./Game":8,"./Map":10,"./PlayerDeck":12,"./PropagationDeck":13,"./Role":14,"Jquery":16}],16:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -10298,4 +10305,4 @@ return jQuery;
 
 }));
 
-},{}]},{},[14]);
+},{}]},{},[15]);
