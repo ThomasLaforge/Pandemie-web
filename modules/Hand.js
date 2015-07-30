@@ -7,12 +7,11 @@ class Hand {
 	}
 	
 	addCard(Card){
-		if(Deck.cardIn(Card) && this.arrayCard.length <= 7){
-			Deck.delete(Card);
+		if(this.arrayCard.length <= 7){
 			this.arrayCard.push(Card);
 		}
 		else{
-			console.log('Tentative d\'ajout de carte du deck dans la main mais la carte n\'existe pas');
+			console.log('Tentative d\'ajout de carte dans la main mais la main est déjà pleine.');
 		}
 	}
 	

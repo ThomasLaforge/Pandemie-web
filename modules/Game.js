@@ -6,20 +6,20 @@ import {Map} 			from './Map';
 
 class Game {
 	constructor(nbPlayer, difficulty){
-		this.playerDeck = new PlayerDeck();
-		this.propagationDeck = new PropagationDeck();
+		//Parameters
 		this.nbPlayer = nbPlayer;
 		this.difficulty = difficulty;
 		this.arrayPlayers = [];
-		this.addPlayers(nbPlayer);
-	}
-	
-	init(){
+		//Methods to init
+		this.addPlayers(this.nbPlayer);
+		this.playerDeck = new PlayerDeck();
 		this.giveCardsToAllPlayers();
+		this.playerDeck.init(this.difficulty);
+		this.propagationDeck = new PropagationDeck();
 	}
 	
 	showPlayers(){
-		
+		console.log(this.arrayPlayers);
 	}
 	
 	getRandomNewName(){

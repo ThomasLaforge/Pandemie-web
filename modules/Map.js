@@ -23,6 +23,7 @@ class Map {
 		if(this._arrayResearchCentres.length == NB_RESEARCH_CENTRES){
 			this.removeFirstResearchCentre();
 		}
+		
 		//On ajoute le centre
 		this._arrayResearchCentres.push(cityName);
 	}

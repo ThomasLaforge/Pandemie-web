@@ -305,10 +305,14 @@ var Card = (function () {
         _classCallCheck(this, Card);
 
         //Type
-        if (_City.City.cityExist(cardName)) {
+        if (cardName == 'epidemy') {
+            this.type = 'epidemy';
+        } else if (_City.City.cityExist(cardName)) {
             this.type = 'city';
+            this.city = new _City.City(cardName);
         } else if (this.isEvent(cardName)) {
             this.type = 'event';
+            this.name = cardName;
         } else {
             this.type = 'nothing';
         }
@@ -504,19 +508,21 @@ var Game = (function () {
 	function Game(nbPlayer, difficulty) {
 		_classCallCheck(this, Game);
 
-		this.playerDeck = new _PlayerDeck.PlayerDeck();
-		this.propagationDeck = new _PropagationDeck.PropagationDeck();
+		//Parameters
 		this.nbPlayer = nbPlayer;
 		this.difficulty = difficulty;
 		this.arrayPlayers = [];
-		this.addPlayers(nbPlayer);
+		//Methods to init
+		this.addPlayers(this.nbPlayer);
+		this.playerDeck = new _PlayerDeck.PlayerDeck();
+		this.giveCardsToAllPlayers();
+		this.playerDeck.init(this.difficulty);
+		this.propagationDeck = new _PropagationDeck.PropagationDeck();
 	}
 
-	Game.prototype.init = function init() {
-		this.giveCardsToAllPlayers();
+	Game.prototype.showPlayers = function showPlayers() {
+		console.log(this.arrayPlayers);
 	};
-
-	Game.prototype.showPlayers = function showPlayers() {};
 
 	Game.prototype.getRandomNewName = function getRandomNewName() {
 		//Get all possible names		
@@ -637,11 +643,10 @@ var Hand = (function () {
 	}
 
 	Hand.prototype.addCard = function addCard(Card) {
-		if (_Deck.Deck.cardIn(Card) && this.arrayCard.length <= 7) {
-			_Deck.Deck['delete'](Card);
+		if (this.arrayCard.length <= 7) {
 			this.arrayCard.push(Card);
 		} else {
-			console.log('Tentative d\'ajout de carte du deck dans la main mais la carte n\'existe pas');
+			console.log('Tentative d\'ajout de carte dans la main mais la main est déjà pleine.');
 		}
 	};
 
@@ -695,6 +700,7 @@ var Map = (function () {
 		if (this._arrayResearchCentres.length == _configuration_file.NB_RESEARCH_CENTRES) {
 			this.removeFirstResearchCentre();
 		}
+
 		//On ajoute le centre
 		this._arrayResearchCentres.push(cityName);
 	};
@@ -864,6 +870,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== 'function' 
 
 var _Deck2 = require('./Deck');
 
+var _Card = require('./Card');
+
 var _Player = require('./Player');
 
 //Constructor   : arrayDeck with all cards, shuffle him, and create a discard array
@@ -874,13 +882,24 @@ var _Player = require('./Player');
 //pickCards     : return an array with the firts cards of the deck.
 
 var PlayerDeck = (function (_Deck) {
-	function PlayerDeck(lvl /*, nbPlayer*/) {
+	function PlayerDeck() {
 		_classCallCheck(this, PlayerDeck);
 
 		_Deck.call(this);
+		//add events
 	}
 
 	_inherits(PlayerDeck, _Deck);
+
+	PlayerDeck.prototype.init = function init(nbEpidemies) {
+		//To finish
+		var array_lenght = 48;
+		for (var i = 0; i < nbEpidemies; i++) {
+			var splitNumber = 5;
+			var randomNumber = 2;
+			this.arrayDeck.splice(splitNumber * i + randomNumber, 0, new _Card.Card('epidemy'));
+		}
+	};
 
 	PlayerDeck.prototype.pickTurnCards = function pickTurnCards() {
 		return this.pickCards(2);
@@ -890,8 +909,9 @@ var PlayerDeck = (function (_Deck) {
 })(_Deck2.Deck);
 
 exports.PlayerDeck = PlayerDeck;
+/*nbPlayer*/
 
-},{"./Deck":7,"./Player":11}],13:[function(require,module,exports){
+},{"./Card":5,"./Deck":7,"./Player":11}],13:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1054,7 +1074,9 @@ var cities = require('../Cities.json');
 //////////////////////////////////////////////////
 $(function () {
 
-	var myMap = new _Map.Map();
+	var myGame = new _Game.Game(getActualNbPlayer(), getActualLvl());
+	//myGame.init();
+	console.log(myGame);
 
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -1075,8 +1097,8 @@ $(function () {
 		$('#configZone').hide();
 		$('#mapToShow').show();
 		var myGame = new _Game.Game(getActualNbPlayer(), getActualLvl());
-		myGame.init();
-		console.log('Lancer une nouvelle partie.');
+		//myGame.init();
+		console.log(myGame);
 	});
 
 	//area touch

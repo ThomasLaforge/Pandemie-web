@@ -14,7 +14,9 @@ import {Map} from './Map';
 //////////////////////////////////////////////////
 $(function(){
 	
-	var myMap = new Map();
+	var myGame = new Game(getActualNbPlayer(), getActualLvl());
+	//myGame.init();
+	console.log(myGame);
 	
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -35,8 +37,8 @@ $(function(){
 		$('#configZone').hide();
 		$('#mapToShow').show();
 		var myGame = new Game(getActualNbPlayer(), getActualLvl());
-		myGame.init();
-		console.log('Lancer une nouvelle partie.');
+		//myGame.init();
+		console.log(myGame);
 	});
 	
 	//area touch

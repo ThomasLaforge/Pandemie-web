@@ -7,11 +7,16 @@ import {City} from './City';
 class Card {
     constructor(cardName) {
         //Type
-        if(City.cityExist(cardName)){
+        if(cardName == 'epidemy'){
+            this.type = 'epidemy';
+        }
+        else if(City.cityExist(cardName)){
             this.type = 'city';
+            this.city = new City(cardName);
         }
         else if(this.isEvent(cardName)){
             this.type = 'event';
+            this.name = cardName;
         }
         else{
             this.type = 'nothing';
