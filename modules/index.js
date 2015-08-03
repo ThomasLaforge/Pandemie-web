@@ -1,4 +1,5 @@
 var $ = require('Jquery');
+require('./jquery.rwdImageMaps.min.js'); 
 var cities = require('../Cities.json');
 
 import {PropagationDeck} from './PropagationDeck';
@@ -14,9 +15,11 @@ import {Map} from './Map';
 //////////////////////////////////////////////////
 $(function(){
 	
-	var myGame = new Game(getActualNbPlayer(), getActualLvl());
-	//myGame.init();
-	console.log(myGame);
+	$('img[usemap]').rwdImageMaps();	
+	
+	var myPlayerDeck = new PlayerDeck();
+	myPlayerDeck.init(6);
+	
 	
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -42,8 +45,10 @@ $(function(){
 	});
 	
 	//area touch
-	$('area').on('click', function(){
-		console.log('Action sur carte.');
+	$('area').on('click', function(event){
+		event.preventDefault();
+		console.log('Action sur carte: ' + $(this).attr('alt'));
+		
 	});
 
 });

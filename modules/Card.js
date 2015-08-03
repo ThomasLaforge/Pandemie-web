@@ -23,6 +23,18 @@ class Card {
         }
     }
     
+    getCity(){
+        return this.city;
+    }
+    
+    getCityName(){
+        return this.city.getName();
+    }
+    
+    getCityColor(){
+        return this.city.getColor();
+    }
+    
     isEvent(cardName){
         var i = 0;
         $.each(events,function(){

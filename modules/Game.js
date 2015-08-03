@@ -10,12 +10,18 @@ class Game {
 		this.nbPlayer = nbPlayer;
 		this.difficulty = difficulty;
 		this.arrayPlayers = [];
+		this.map = new Map();
 		//Methods to init
 		this.addPlayers(this.nbPlayer);
 		this.playerDeck = new PlayerDeck();
 		this.giveCardsToAllPlayers();
 		this.playerDeck.init(this.difficulty);
 		this.propagationDeck = new PropagationDeck();
+		this.actualPlayer = this.arrayPlayers[0];
+	}
+	
+	showActualPlayer(){
+		console.log(this.actualPlayer);
 	}
 	
 	showPlayers(){
@@ -71,6 +77,7 @@ class Game {
 		}
 	}
 	
+	//at start of the game, give cards to players
 	giveCardsToAllPlayers(){
 		var nbCardsToGive;
 		switch (this.nbPlayer) {
@@ -87,19 +94,13 @@ class Game {
 		}
 	}
 	
-	giveCards(nbCards, player){
-		
-	}
-	
 	doEpidemy(){
 		//Pick the last card of propagation deck
-		var LastCard = this.propagationDeck.getLastCard();
-		//Add 3 cubes if no cubes in this city
-		
-		//Or put 3 cubes and do eclosion
-		
+		var lastCard = this.propagationDeck.getLastCard();
+		//Add 3 cubes to this City
+		this.map.addCubes(3,lastCard.getCityName(),lastCard.getCityColor());		
 		//Discard this card
-		this.propagationDeck.discard(LastCard);
+		this.propagationDeck.discard(lastCard.name);
 		//Shuffle the discard
 		this.propagationDeck.shuffleDiscard();
 		//And add the discard to the top of the deck
@@ -108,6 +109,32 @@ class Game {
 		this.propagationDeck.increasePropagationForce();
 	}
 	
+	nextPlayer(){
+		var actualPlayer = this.actualPlayer;
+		var actualPlayerPos = this.arrayPlayers.indexOf(actualPlayer);
+		var indexNextPlayer = actualPlayerPos != this.arrayPlayers.length - 1 ? actualPlayerPos + 1 : 0 ;
+		//Set actualPlayer the next one
+		this.actualPlayer = this.arrayPlayers[indexNextPlayer];
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////        ACTIONS               ///////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// 1 - Moves
+	
+		// a) direct
+		// b) court
+		// c) long
+		// d) centre a centre
+	
+	// 2 - Add research centre
+	
+	// 3 - Do remede
+	
+	// 4 - Soigner
+	
+	//  - 
 	
 } 
 

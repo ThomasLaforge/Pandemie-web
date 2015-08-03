@@ -14,7 +14,6 @@ class Map {
 	constructor(){ //idMap = '#idMap'
 		this._arrayCubes = {};
 		this._arrayResearchCentres = [];
-		console.log(COLORS);
 	}
 	
 	//Research Centres
@@ -74,7 +73,11 @@ class Map {
 		return true;
 	}
 	
-	getNbCubesByColor(){
+	getNbCubesInMapByColor(){
+		
+	}
+	
+	getNbCubesInReserveByColor(){
 		
 	}
 	

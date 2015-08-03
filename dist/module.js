@@ -318,6 +318,18 @@ var Card = (function () {
         }
     }
 
+    Card.prototype.getCity = function getCity() {
+        return this.city;
+    };
+
+    Card.prototype.getCityName = function getCityName() {
+        return this.city.getName();
+    };
+
+    Card.prototype.getCityColor = function getCityColor() {
+        return this.city.getColor();
+    };
+
     Card.prototype.isEvent = function isEvent(cardName) {
         var i = 0;
         $.each(events, function () {
@@ -334,7 +346,7 @@ var Card = (function () {
 
 exports.Card = Card;
 
-},{"../Events.json":2,"./City":6,"Jquery":16}],6:[function(require,module,exports){
+},{"../Events.json":2,"./City":6,"Jquery":17}],6:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -399,7 +411,7 @@ var City = (function () {
 
 exports.City = City;
 
-},{"../Cities.json":1,"Jquery":16}],7:[function(require,module,exports){
+},{"../Cities.json":1,"Jquery":17}],7:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -487,7 +499,7 @@ var Deck = (function () {
 
 exports.Deck = Deck;
 
-},{"../Cities.json":1,"./Card":5,"Jquery":16}],8:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":5,"Jquery":17}],8:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -512,13 +524,19 @@ var Game = (function () {
 		this.nbPlayer = nbPlayer;
 		this.difficulty = difficulty;
 		this.arrayPlayers = [];
+		this.map = new _Map.Map();
 		//Methods to init
 		this.addPlayers(this.nbPlayer);
 		this.playerDeck = new _PlayerDeck.PlayerDeck();
 		this.giveCardsToAllPlayers();
 		this.playerDeck.init(this.difficulty);
 		this.propagationDeck = new _PropagationDeck.PropagationDeck();
+		this.actualPlayer = this.arrayPlayers[0];
 	}
+
+	Game.prototype.showActualPlayer = function showActualPlayer() {
+		console.log(this.actualPlayer);
+	};
 
 	Game.prototype.showPlayers = function showPlayers() {
 		console.log(this.arrayPlayers);
@@ -579,6 +597,8 @@ var Game = (function () {
 		}
 	};
 
+	//at start of the game, give cards to players
+
 	Game.prototype.giveCardsToAllPlayers = function giveCardsToAllPlayers() {
 		var nbCardsToGive;
 		switch (this.nbPlayer) {
@@ -600,17 +620,13 @@ var Game = (function () {
 		}
 	};
 
-	Game.prototype.giveCards = function giveCards(nbCards, player) {};
-
 	Game.prototype.doEpidemy = function doEpidemy() {
 		//Pick the last card of propagation deck
-		var LastCard = this.propagationDeck.getLastCard();
-		//Add 3 cubes if no cubes in this city
-
-		//Or put 3 cubes and do eclosion
-
+		var lastCard = this.propagationDeck.getLastCard();
+		//Add 3 cubes to this City
+		this.map.addCubes(3, lastCard.getCityName(), lastCard.getCityColor());
 		//Discard this card
-		this.propagationDeck.discard(LastCard);
+		this.propagationDeck.discard(lastCard.name);
 		//Shuffle the discard
 		this.propagationDeck.shuffleDiscard();
 		//And add the discard to the top of the deck
@@ -618,6 +634,35 @@ var Game = (function () {
 		//Finally increase the propagation lvl
 		this.propagationDeck.increasePropagationForce();
 	};
+
+	Game.prototype.nextPlayer = function nextPlayer() {
+		var actualPlayer = this.actualPlayer;
+		var actualPlayerPos = this.arrayPlayers.indexOf(actualPlayer);
+		var indexNextPlayer = actualPlayerPos != this.arrayPlayers.length - 1 ? actualPlayerPos + 1 : 0;
+		//Set actualPlayer the next one
+		this.actualPlayer = this.arrayPlayers[indexNextPlayer];
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////        ACTIONS               ///////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// 1 - Moves
+
+	// a) direct
+	// b) court
+	// c) long
+	// d) centre a centre
+
+	// 2 - Add research centre
+
+	// 3 - Do remede
+
+	// 4 - Soigner
+
+	//  -
+
+	;
 
 	return Game;
 })();
@@ -690,7 +735,6 @@ var Map = (function () {
 		//idMap = '#idMap'
 		this._arrayCubes = {};
 		this._arrayResearchCentres = [];
-		console.log(_configuration_file.COLORS);
 	}
 
 	//Research Centres
@@ -750,7 +794,9 @@ var Map = (function () {
 		return true;
 	};
 
-	Map.prototype.getNbCubesByColor = function getNbCubesByColor() {};
+	Map.prototype.getNbCubesInMapByColor = function getNbCubesInMapByColor() {};
+
+	Map.prototype.getNbCubesInReserveByColor = function getNbCubesInReserveByColor() {};
 
 	Map.prototype.getNbCubes = function getNbCubes(cityName, color) {};
 
@@ -769,7 +815,7 @@ var Map = (function () {
 
 exports.Map = Map;
 
-},{"../Cities.json":1,"../configuration_file":4,"Jquery":16}],11:[function(require,module,exports){
+},{"../Cities.json":1,"../configuration_file":4,"Jquery":17}],11:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -893,11 +939,15 @@ var PlayerDeck = (function (_Deck) {
 
 	PlayerDeck.prototype.init = function init(nbEpidemies) {
 		//To finish
-		var array_lenght = 48;
+		var div = Math.floor(this.arrayDeck.length / nbEpidemies);
+		var rem = this.arrayDeck.length % nbEpidemies;
+
+		//Les premiers paquets
 		for (var i = 0; i < nbEpidemies; i++) {
-			var splitNumber = 5;
-			var randomNumber = 2;
-			this.arrayDeck.splice(splitNumber * i + randomNumber, 0, new _Card.Card('epidemy'));
+			var max = i >= nbEpidemies - rem ? div + 2 : div + 1;
+			var randomNumber = Math.floor(Math.random() * max);
+			var pos = i * div + randomNumber + i;
+			this.arrayDeck.splice(pos, 0, 'test');
 		}
 	};
 
@@ -1049,7 +1099,7 @@ var Role = (function () {
 
 exports.Role = Role;
 
-},{"../Roles.json":3,"Jquery":16}],15:[function(require,module,exports){
+},{"../Roles.json":3,"Jquery":17}],15:[function(require,module,exports){
 'use strict';
 
 var _PropagationDeck = require('./PropagationDeck');
@@ -1067,6 +1117,7 @@ var _Game = require('./Game');
 var _Map = require('./Map');
 
 var $ = require('Jquery');
+require('./jquery.rwdImageMaps.min.js');
 var cities = require('../Cities.json');
 
 //////////////////////////////////////////////////
@@ -1074,9 +1125,10 @@ var cities = require('../Cities.json');
 //////////////////////////////////////////////////
 $(function () {
 
-	var myGame = new _Game.Game(getActualNbPlayer(), getActualLvl());
-	//myGame.init();
-	console.log(myGame);
+	$('img[usemap]').rwdImageMaps();
+
+	var myPlayerDeck = new _PlayerDeck.PlayerDeck();
+	myPlayerDeck.init(6);
 
 	////////////////////////////////////////////////
 	///////////        Evenements       ////////////
@@ -1102,8 +1154,9 @@ $(function () {
 	});
 
 	//area touch
-	$('area').on('click', function () {
-		console.log('Action sur carte.');
+	$('area').on('click', function (event) {
+		event.preventDefault();
+		console.log('Action sur carte: ' + $(this).attr('alt'));
 	});
 });
 
@@ -1115,7 +1168,61 @@ function getActualNbPlayer() {
 	return $('input[type=radio][name=nb_player]').val();
 }
 
-},{"../Cities.json":1,"./Card":5,"./City":6,"./Game":8,"./Map":10,"./PlayerDeck":12,"./PropagationDeck":13,"./Role":14,"Jquery":16}],16:[function(require,module,exports){
+},{"../Cities.json":1,"./Card":5,"./City":6,"./Game":8,"./Map":10,"./PlayerDeck":12,"./PropagationDeck":13,"./Role":14,"./jquery.rwdImageMaps.min.js":16,"Jquery":17}],16:[function(require,module,exports){
+'use strict';
+
+var $ = require('Jquery');
+
+$.fn.rwdImageMaps = function () {
+	var $img = this;
+
+	var rwdImageMap = function rwdImageMap() {
+		$img.each(function () {
+			if (typeof $(this).attr('usemap') == 'undefined') return;
+
+			var that = this,
+			    $that = $(that);
+
+			// Since WebKit doesn't know the height until after the image has loaded, perform everything in an onload copy
+			$('<img />').load(function () {
+				var attrW = 'width',
+				    attrH = 'height',
+				    w = $that.attr(attrW),
+				    h = $that.attr(attrH);
+
+				if (!w || !h) {
+					var temp = new Image();
+					temp.src = $that.attr('src');
+					if (!w) w = temp.width;
+					if (!h) h = temp.height;
+				}
+
+				var wPercent = $that.width() / 100,
+				    hPercent = $that.height() / 100,
+				    map = $that.attr('usemap').replace('#', ''),
+				    c = 'coords';
+
+				$('map[name="' + map + '"]').find('area').each(function () {
+					var $this = $(this);
+					if (!$this.data(c)) $this.data(c, $this.attr(c));
+
+					var coords = $this.data(c).split(','),
+					    coordsPercent = new Array(coords.length);
+
+					for (var i = 0; i < coordsPercent.length; ++i) {
+						if (i % 2 === 0) coordsPercent[i] = parseInt(coords[i] / w * 100 * wPercent);else coordsPercent[i] = parseInt(coords[i] / h * 100 * hPercent);
+					}
+					$this.attr(c, coordsPercent.toString());
+				});
+			}).attr('src', $that.attr('src'));
+		});
+	};
+	$(window).resize(rwdImageMap).trigger('resize');
+
+	return this;
+};
+
+},{"Jquery":17}],17:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/

@@ -18,11 +18,15 @@ class PlayerDeck extends Deck{
 	}
 	
 	init(nbEpidemies){ //To finish
-		var array_lenght = 48;
+		var div = Math.floor(this.arrayDeck.length / nbEpidemies);
+		var rem = this.arrayDeck.length % nbEpidemies;
+		
+		//Les premiers paquets
 		for (var i = 0; i < nbEpidemies; i++) {
-			var splitNumber = 5;
-			var randomNumber = 2;
-			this.arrayDeck.splice(splitNumber * i + randomNumber, 0, new Card('epidemy'));
+			var max = i >= nbEpidemies - rem ? div + 2 : div + 1;
+			var randomNumber = Math.floor(Math.random() * (max));
+			var pos = i * div + randomNumber + i;
+			this.arrayDeck.splice(pos, 0, 'test');
 		}
 	}
 	
