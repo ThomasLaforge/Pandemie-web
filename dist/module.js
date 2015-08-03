@@ -660,7 +660,7 @@ var Game = (function () {
 
 	// 4 - Soigner
 
-	//  -
+	// 5 - Echanger une carte
 
 	;
 

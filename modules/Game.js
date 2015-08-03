@@ -134,7 +134,7 @@ class Game {
 	
 	// 4 - Soigner
 	
-	//  - 
+	// 5 - Echanger une carte 
 	
 } 
 
