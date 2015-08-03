@@ -124,9 +124,28 @@ class Game {
 	// 1 - Moves
 	
 		// a) direct
+		
+		moveDirect(card){
+			
+		}
+		
 		// b) court
+		
+		moveShort(cityName){
+			
+		}
+		
 		// c) long
+		
+		moveLong(card){
+			
+		}
+		
 		// d) centre a centre
+		
+		moveCentre(cityName){
+			
+		}
 	
 	// 2 - Add research centre
 	
