@@ -15,7 +15,7 @@ class Hand {
 		}
 	}
 	
-	removeCard(Card){
+	removeCard(card){
 		var pos = this.arrayCard.indexOf(Card);
 		if(pos > -1){
 			this.arrayCard.splice(pos, 1);
@@ -23,6 +23,10 @@ class Hand {
 		else{
 			console.log('Tentative de suppression d\'une carte qui n\'est pas présente dans la main');
 		}
+	}
+	
+	cardIsPresent(card){
+		return this.arrayCard.indexOf(card) > -1;
 	}
 }
 

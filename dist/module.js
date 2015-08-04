@@ -508,6 +508,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var _Player = require('./Player');
 
+var _City = require('./City');
+
 var _Role = require('./Role');
 
 var _PlayerDeck = require('./PlayerDeck');
@@ -532,6 +534,8 @@ var Game = (function () {
 		this.playerDeck.init(this.difficulty);
 		this.propagationDeck = new _PropagationDeck.PropagationDeck();
 		this.actualPlayer = this.arrayPlayers[0];
+		this.listRemede = []; // Tableau contenant le nom des couleur ayant le remede découvert
+		this.listRemedeEradicated = []; // Tableau contenant le nom des couleur ayant le remede éradiqué
 	}
 
 	Game.prototype.showActualPlayer = function showActualPlayer() {
@@ -641,7 +645,7 @@ var Game = (function () {
 		var indexNextPlayer = actualPlayerPos != this.arrayPlayers.length - 1 ? actualPlayerPos + 1 : 0;
 		//Set actualPlayer the next one
 		this.actualPlayer = this.arrayPlayers[indexNextPlayer];
-	}
+	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////        ACTIONS               ///////////////////////////////////////
@@ -650,26 +654,121 @@ var Game = (function () {
 	// 1 - Moves
 
 	// a) direct
+
+	Game.prototype.moveDirect = function moveDirect(card) {
+		if (this.actualPlayer.getHand().cardIsPresent(card)) {
+			this.actualPlayer.moveTo(card.getCity());
+		} else {
+			console.log('Il n\'est pas possible de bouger vers une ville via vol direct sas posséder la carte de cette ville.');
+		}
+	};
+
 	// b) court
+
+	Game.prototype.moveShort = function moveShort(cityToMove) {
+		if (this.actualPlayer.getPosition().isLinked(cityToMove)) {
+			this.actualPlayer.moveTo(cityToMove);
+		} else {
+			console.log('La ville où vous souhaitez vous déplacer n\'est pas reliée à votre ville actuelle.');
+		}
+	};
+
 	// c) long
+
+	Game.prototype.moveLong = function moveLong(card, city) {
+		if (this.actualPlayer.getHand().cardIsPresent(card)) {
+			if (this.actualPlayer.getPosition() == card.getCity()) {
+				this.actualPlayer.getHand().removeCard(card);
+				this.playerDeck.discard([card]);
+			} else {
+				console.log('La carte choisie ne correspond pas à votre position actuelle.');
+			}
+		} else {
+			console.log('Il n\'est pas possible de bouger vers une ville via vol direct sas posséder la carte de cette ville.');
+		}
+	};
+
 	// d) centre a centre
+
+	Game.prototype.moveCentre = function moveCentre(cityNameDestination) {
+		if (_City.City.cityExist(cityNameDestination)) {
+			if (this.map.isResearchCentre(this.actualPlayer.getPosition())) {
+				if (this.map.isResearchCentre(cityNameDestination)) {
+					this.actualPlayer.moveTo(new _City.City());
+				} else {
+					console.log('La ville de déstination ne possède pas de centre de recherche.');
+				}
+			} else {
+				console.log('Vous n\'êtes pas sur un centre de recherche.');
+			}
+		} else {
+			console.log('La ville de destination n\'existe pas');
+		}
+	};
 
 	// 2 - Add research centre
 
+	Game.prototype.addResearchCentre = function addResearchCentre() {
+		this.map.addResearchCentre(this.actualPlayer.getPosition());
+	};
+
 	// 3 - Do remede
+
+	Game.prototype.DoRemede = function DoRemede(color) {
+		if (this.actualPlayer.canDoRemede(color)) {
+			this.actualPlayer.doRemede(color);
+			this.listRemede.push(color);
+		} else {
+			console.log('this player can\'t do the remede.');
+		}
+	};
 
 	// 4 - Soigner
 
+	Game.prototype.getNbCubesToHeal = function getNbCubesToHeal() {
+		var res;
+
+		if (this.actualPlayer.getRole() == 'Medecin' || this.listRemedeEradicated.indexOf(this.actualPlayer.getPosition().getColor()) > -1) {
+			res = this.map.getNbCubes(this.actualPlayer.getPosition());
+		} else {
+			res = 1;
+		}
+		return res;
+	};
+
+	Game.prototype.heal = function heal(color) {
+		//NB : a city could have cube of another color
+		if (this.map.canRemoveCubes(this.actualPlayer.getPosition())) {
+			var nbCubesToRemove = this.getNbCubesToHeal();
+			this.map.removeCubes(nbCubesToRemove, this.actualPlayer.getPosition(), color);
+		} else {
+			console.log('Il n\'y a pas de cubes à retirer dans cette ville.');
+		}
+	};
+
 	// 5 - Echanger une carte
 
-	;
+	Game.prototype.tradeCard = function tradeCard(player, card, boolGive) {
+		//Check player exist and not actualPlayer
+		var indexPlayer = this.arrayPlayers.indexOf(_Player.Player);
+		if (indexPlayer > -1) {
+			//If boolGive : this.actualPlayer want to give a card , else : this.actualPlayer want a card from another player
+			if (boolGive) {} else {}
+		} else {
+			console.log('Le joueur avec lequel vous souhaitez réaliser l\'échange n\'existe pas');
+		}
+	};
 
 	return Game;
 })();
 
 exports.Game = Game;
 
-},{"./Map":10,"./Player":11,"./PlayerDeck":12,"./PropagationDeck":13,"./Role":14}],9:[function(require,module,exports){
+//Check card exit and it is in actualPlayer hand
+
+//Check card exit and it is in player hand
+
+},{"./City":6,"./Map":10,"./Player":11,"./PlayerDeck":12,"./PropagationDeck":13,"./Role":14}],9:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -695,13 +794,17 @@ var Hand = (function () {
 		}
 	};
 
-	Hand.prototype.removeCard = function removeCard(Card) {
-		var pos = this.arrayCard.indexOf(Card);
+	Hand.prototype.removeCard = function removeCard(card) {
+		var pos = this.arrayCard.indexOf(_Card.Card);
 		if (pos > -1) {
 			this.arrayCard.splice(pos, 1);
 		} else {
 			console.log('Tentative de suppression d\'une carte qui n\'est pas présente dans la main');
 		}
+	};
+
+	Hand.prototype.cardIsPresent = function cardIsPresent(card) {
+		return this.arrayCard.indexOf(card) > -1;
 	};
 
 	return Hand;
